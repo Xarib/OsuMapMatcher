@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from werkzeug import exceptions
 import sqlite3
 import numpy as np
 from sklearn import neighbors
@@ -47,10 +48,28 @@ clf.fit(X, y);
 def get_info():
     return jsonify({'info' : 'No info'})
 
+@app.route('/api/knn/maps', methods=['GET'])
+def get_all_map_ids():
+    with sqlite3.connect(DATABASE) as connection:
+        cursor = connection.cursor()
+        cursor.execute("SELECT BeatmapId FROM Beatmap")
+        ids = cursor.fetchall()
+
+    return jsonify(ids=[e[0] for e in ids])
+
 @app.route('/api/knn/ranked', methods=['GET'])
 def get_similiar_maps():
     beatmap_id = request.args.get('id', default=None, type=int)
     match_count = request.args.get('count', default=10, type=int)
+
+    if (beatmap_id < 1):
+        return "BeatmapId is not valid", 400
+
+    if (match_count < 1):
+        return "Count cant be smaller than 1", 400
+
+    if (match_count > 100):
+        return "You cannot request more than 100 maps", 400
 
     with sqlite3.connect(DATABASE) as connection:
         cursor = connection.cursor()
@@ -85,11 +104,14 @@ def get_similiar_maps():
             BeatmapId = ?""", (beatmap_id, ))
         selected_map = cursor.fetchone()
 
+    if (selected_map is None):
+        return "Beatmap not found", 200
+
     kneighbors = clf.kneighbors([selected_map], match_count, return_distance=False)
     kneighbors = kneighbors + 1
-    kneighbors = np.array2string(kneighbors[0], separator=' OR Id=')
+    query = np.array2string(kneighbors[0], separator=' OR Id=')
 
-    query = 'SELECT * FROM BEATMAP_MATCH_VIEW WHERE Id=' + kneighbors.strip('[]')
+    query = 'SELECT * FROM BEATMAP_MATCH_VIEW WHERE Id=' + query.strip('[]')
 
     with sqlite3.connect(DATABASE) as connection:
         cursor = connection.cursor()
