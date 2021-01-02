@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "OMM.Api", "OMM.Api\OMM.Api.pyproj", "{F526FBFF-8D47-4E8D-878B-A4194DF8CD83}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F526FBFF-8D47-4E8D-878B-A4194DF8CD83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F526FBFF-8D47-4E8D-878B-A4194DF8CD83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F526FBFF-8D47-4E8D-878B-A4194DF8CD83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F526FBFF-8D47-4E8D-878B-A4194DF8CD83}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

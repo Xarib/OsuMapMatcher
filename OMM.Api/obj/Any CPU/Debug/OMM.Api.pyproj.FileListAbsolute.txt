@@ -1,0 +1,1 @@
+S:\projects\OsuMapMatcher\OMM.Api\obj\Any CPU\Debug\OMM.Api.pyproj.CoreCompileInputs.cache
