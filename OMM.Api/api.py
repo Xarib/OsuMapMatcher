@@ -1,10 +1,17 @@
 from flask import Flask, jsonify, request
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from werkzeug import exceptions
 import sqlite3
 import numpy as np
 from sklearn import neighbors
 
 app = Flask(__name__)
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
+    default_limits=["60 per minute"]
+)
 
 DATABASE = 'S:/OMM.db'
 
@@ -50,6 +57,7 @@ def get_info():
     return jsonify({'info' : 'No info'})
 
 @app.route('/api/knn/maps', methods=['GET'])
+@limiter.limit("30/minute")
 def get_all_map_ids():
     with sqlite3.connect(DATABASE) as connection:
         cursor = connection.cursor()
@@ -58,7 +66,9 @@ def get_all_map_ids():
 
     return jsonify(ids=[e[0] for e in ids])
 
+
 @app.route('/api/knn/ranked', methods=['GET'])
+@limiter.limit("30/minute")
 def get_similiar_maps():
     beatmap_id = request.args.get('id', default=None, type=int)
     match_count = request.args.get('count', default=10, type=int)
