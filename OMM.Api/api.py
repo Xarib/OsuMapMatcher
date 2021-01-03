@@ -8,8 +8,9 @@ app = Flask(__name__)
 
 DATABASE = 'S:/OMM.db'
 
-def searialize_tuple(tuple):
+def searialize_to_json(distance, tuple):
     return{
+        'k_distance' : distance,
         'beatmap_id': tuple[1],
         'hp': tuple[2],
         'cs': tuple[3],
@@ -105,20 +106,24 @@ def get_similiar_maps():
         selected_map = cursor.fetchone()
 
     if (selected_map is None):
-        return "Beatmap not found", 200
+        return "Beatmap not found", 404
 
-    kneighbors = clf.kneighbors([selected_map], match_count, return_distance=False)
-    kneighbors = kneighbors + 1
-    query = np.array2string(kneighbors[0], separator=' OR Id=')
-
-    query = 'SELECT * FROM BEATMAP_MATCH_VIEW WHERE Id=' + query.strip('[]')
+    kneighbors = clf.kneighbors([selected_map], match_count)
+    neighbor_ids = kneighbors[1][0] + 1
+    distances = kneighbors[0][0]
+    
+    query = np.array2string(neighbor_ids, separator=' OR Id=')
+    query = 'SELECT * FROM BEATMAP_MATCH_VIEW WHERE Id=' + query.strip('[]') + ' ORDER BY CASE Id'
+    for i, val in enumerate(neighbor_ids):
+        query = query + ' WHEN ' + str(val) + ' THEN ' + str(i)
+    query = query + " END"
 
     with sqlite3.connect(DATABASE) as connection:
         cursor = connection.cursor()
         cursor.execute(query)
         map_datas = cursor.fetchall()
     
-    return jsonify(matches=[searialize_tuple(e) for e in map_datas])
+    return jsonify(matches=[searialize_to_json(distances[i], e) for i, e in enumerate(map_datas)])
 
 if __name__ == '__main__':
     app.run('localhost', 55555)
