@@ -4,6 +4,20 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <AssemblyName>OsuMapMatcher</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resource\no_image.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\no_image.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Api\" />
+    <Folder Include="Model\" />
+  </ItemGroup>
 
 </Project>

@@ -5,8 +5,123 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OMM.Desktop.View"
         mc:Ignorable="d"
-        Title="OsuMapMatcher" Height="450" Width="800">
-    <Grid>
         
+        Title="OsuMapMatcher" 
+        Height="800" 
+        Width="512" 
+        ResizeMode="CanMinimize" 
+        WindowStyle="None" 
+        Background="#1c1a1e">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="ColorWhite" Color="#ebe8f4"/>
+        <SolidColorBrush x:Key="BackgroundPrimary" Color="#1c1a1e"/>
+        <SolidColorBrush x:Key="BackgroundSecondary" Color="#1c1a1e"/>
+        <SolidColorBrush x:Key="BackgroundFocus" Color="#1c1a1e"/>
+        <Style TargetType="Control" x:Key="WhiteTextBig">
+            <Setter Property="Foreground" Value="{StaticResource ColorWhite}"/>
+            <Setter Property="FontSize" Value="36"/>
+        </Style>
+        <Style TargetType="Control" x:Key="WhiteTextBigMed">
+            <Setter Property="Foreground" Value="{StaticResource ColorWhite}"/>
+            <Setter Property="FontSize" Value="24"/>
+        </Style>
+        <Style TargetType="Control" x:Key="WhiteTextMed">
+            <Setter Property="Foreground" Value="{StaticResource ColorWhite}"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        <Style TargetType="Control" x:Key="WhiteTextSmol">
+            <Setter Property="Foreground" Value="{StaticResource ColorWhite}"/>
+            <Setter Property="FontSize" Value="11"/>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="24"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="24"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Song seletion-->
+        <Grid Grid.Row="0"  Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="24"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="24"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="16" />
+            </Grid.RowDefinitions>
+            <Grid.Background>
+                <ImageBrush x:Name="CurrentSelectionBackground" ImageSource="/Resource/no_image.jpg"/>
+            </Grid.Background>
+
+            <Grid Grid.ColumnSpan="100">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Menu Grid.Column="1" Background="Transparent" Foreground="{StaticResource ColorWhite}">
+                    <MenuItem Header="Program" Height="32">
+                        <MenuItem Header="E_xit" />
+                    </MenuItem>
+                </Menu>
+                <Button Grid.Column="2" Content="-" Width="48" FontSize="24"/>
+                <Button Grid.Column="3" Content="X" Width="48"/>
+            </Grid>
+
+            <TextBlock Text="Artist" Grid.Column="1" Grid.Row="1" Style="{StaticResource WhiteTextSmol}"/>
+            <TextBlock Text="Mapped by" Grid.Column="1" Grid.Row="2" Style="{StaticResource WhiteTextSmol}"/>
+            <TextBlock 
+                Text="Song title" 
+                Grid.Column="1" 
+                Grid.Row="5"
+                TextWrapping="Wrap"
+                Style="{StaticResource WhiteTextBigMed}"
+            />
+            <TextBlock Text="[Difficulty]" Grid.Column="1" Grid.Row="6" Style="{StaticResource WhiteTextSmol}"/>
+
+        </Grid>
+
+        <!--Search-->
+        <Grid Grid.Row="1" Grid.Column="1" MaxHeight="100">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button 
+                Grid.Column="1" 
+                Content="Search"
+                Width="220" 
+                Height="48"
+                Style="{StaticResource WhiteTextBigMed}"
+                Background="#2738f4" 
+                BorderBrush="Transparent"
+                />
+        </Grid>
+
+        <!--Match list-->
+        <ScrollViewer Grid.Row="2" Grid.Column="1" VerticalScrollBarVisibility="Auto">
+        </ScrollViewer>
     </Grid>
 </Window>
