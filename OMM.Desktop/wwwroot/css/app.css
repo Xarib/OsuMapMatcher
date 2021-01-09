@@ -1,0 +1,51 @@
+﻿body {
+  margin: 0;
+  padding: 0;
+  background-color: #1d1f20;
+  color: #d4d8d9FF;
+}
+.view-layout-content-with-sidebar {
+  display: flex;
+  align-items: stretch;
+  height: 100vh;
+}
+.view-layout-content-with-sidebar__side-menu {
+  background: #30303b;
+}
+.component-side-menu__text {
+  font-size: 24px;
+  padding-left: 16px;
+}
+.component-side-menu__toggle-button {
+  display: flex;
+  font-size: 36px;
+  align-items: center;
+  padding: 16px;
+  padding-left: 24px;
+  background-color: #3d1adb;
+  color: #d4d8d9FF;
+}
+.component-side-menu__toggle-button--open {
+  justify-content: left;
+}
+.component-side-menu__toggle-button:hover {
+  background-color: #4a2adc;
+}
+.component-side-menu__nav-items {
+  display: flex;
+  flex-direction: column;
+}
+.component-side-menu__nav-items--open {
+  align-items: start;
+}
+.component-side-menu__navlink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #d4d8d9FF;
+  padding: 16px;
+  font-size: 36px;
+}
+.component-side-menu--open {
+  width: 240px;
+}

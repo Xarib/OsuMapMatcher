@@ -1,0 +1,49 @@
+﻿@import "../../Pages/variables.less";
+
+.component-side-menu {
+
+    &__text {
+        font-size: 24px;
+        padding-left: @baseSpacing * 2;
+    }
+
+    &__toggle-button {
+        display: flex;
+        font-size: @fontSizeHuge;
+        align-items: center;
+        padding: @baseSpacing * 2;
+        padding-left: @baseSpacing * 3;
+        background-color: @colorPrimary;
+        color: @colorWhite;
+    }
+
+    &__toggle-button--open {
+        justify-content: left;
+    }
+
+    &__toggle-button:hover {
+        background-color: @colorPrimaryLight;
+    }
+
+    &__nav-items {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__nav-items--open {
+        align-items: start;
+    }
+
+    &__navlink {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: @colorWhite;
+        padding: @baseSpacing * 2;
+        font-size: @fontSizeHuge;
+    }
+}
+
+.component-side-menu--open{
+    width: 240px;
+}

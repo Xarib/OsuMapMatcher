@@ -1,23 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
-    <UseWPF>true</UseWPF>
+    <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>OsuMapMatcher</AssemblyName>
+    <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
+    <OutputType>WinExe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resource\no_image.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resource\no_image.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Api\" />
-    <Folder Include="Model\" />
+    <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,39 @@
+﻿<div class="@Bem.Base(collapsedFlag)">
+    <div class="@Bem.Element("toggle-button", collapsedFlag)"
+         @onclick="ToggleSideMenu">
+        <i class="fas fa-bars"></i>
+        @if (collapsedFlag is not null)
+        {
+            <span class="@Bem.Element("text")">OMM</span>
+        }
+    </div>
+    <div class="@Bem.Element("nav-items", collapsedFlag)">
+        <NavLink class="@Bem.Element("navlink", collapsedFlag)" href="" Match="NavLinkMatch.All">
+            <i class="fas fa-home"></i>
+            @if (collapsedFlag is not null)
+            {
+                <span class="@Bem.Element("text")">Home</span>
+            }
+        </NavLink>
+        <NavLink class="@Bem.Element("navlink", collapsedFlag)" href="counter">
+            <i class="fas fa-cogs"></i>
+            @if (collapsedFlag is not null)
+            {
+                <span class="@Bem.Element("text")">Settings</span>
+            }
+        </NavLink>
+    </div>
+</div>
+
+@code {
+    private bool isEnlarged = false;
+
+    private string collapsedFlag => isEnlarged ? "open" : null;
+
+    private Bem Bem = new Bem("component-side-menu");
+
+    private void ToggleSideMenu()
+    {
+        isEnlarged = !isEnlarged;
+    }
+}

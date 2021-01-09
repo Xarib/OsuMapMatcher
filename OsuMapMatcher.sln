@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "OMM.Api", "OMM.Api\OMM.Api.pyproj", "{F526FBFF-8D47-4E8D-878B-A4194DF8CD83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OMM.Desktop", "OMM.Desktop\OMM.Desktop.csproj", "{3E434F8A-227E-4D45-8680-0F95A8C402F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMM.Desktop", "OMM.Desktop\OMM.Desktop.csproj", "{FF98962A-240D-401C-9BD5-9C50C10E5342}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{F526FBFF-8D47-4E8D-878B-A4194DF8CD83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F526FBFF-8D47-4E8D-878B-A4194DF8CD83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F526FBFF-8D47-4E8D-878B-A4194DF8CD83}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3E434F8A-227E-4D45-8680-0F95A8C402F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E434F8A-227E-4D45-8680-0F95A8C402F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3E434F8A-227E-4D45-8680-0F95A8C402F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3E434F8A-227E-4D45-8680-0F95A8C402F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF98962A-240D-401C-9BD5-9C50C10E5342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF98962A-240D-401C-9BD5-9C50C10E5342}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF98962A-240D-401C-9BD5-9C50C10E5342}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF98962A-240D-401C-9BD5-9C50C10E5342}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
