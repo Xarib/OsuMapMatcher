@@ -1,15 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>OsuMapMatcher</AssemblyName>
-    <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
-    <OutputType>WinExe</OutputType>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<AssemblyName>OsuMapMatcher</AssemblyName>
+		<ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
+		<OutputType>Exe</OutputType>
+		<UserSecretsId>b647ab51-3722-4740-875a-d4795c28b083</UserSecretsId>
+		<TargetFramework>net5.0</TargetFramework>
+		<PublishSingleFile>true</PublishSingleFile>
+		<SelfContained>true</SelfContained>
+		<RuntimeIdentifier>win-x86</RuntimeIdentifier>
+		<PublishTrimmed>true</PublishTrimmed>
+		<PublishReadyToRun>true</PublishReadyToRun>
+		<TrimMode>Link</TrimMode>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="BuildWebCompiler" Version="1.12.405" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
+	</ItemGroup>
 
 </Project>
