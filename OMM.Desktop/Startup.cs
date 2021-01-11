@@ -1,3 +1,4 @@
+using Blazor.Polyfill.Server;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Server.Circuits;
@@ -34,6 +35,7 @@ namespace OMM.Desktop
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<OsuDataProvider>();
             services.AddSingleton<CircuitHandler, TrackingCircuitHandler>();
+            services.AddBlazorPolyfill();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +50,8 @@ namespace OMM.Desktop
             {
                 app.UseExceptionHandler("/Error");
             }
+
+            app.UseBlazorPolyfill();
 
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
