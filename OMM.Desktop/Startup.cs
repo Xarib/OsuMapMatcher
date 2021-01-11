@@ -4,10 +4,13 @@ using Microsoft.AspNetCore.Components.Server.Circuits;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using OMM.Desktop.Data;
+using OMM.Desktop.Data.OsuDataProvider;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,6 +32,7 @@ namespace OMM.Desktop
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<OsuDataProvider>();
             services.AddSingleton<CircuitHandler, TrackingCircuitHandler>();
         }
 
@@ -46,6 +50,12 @@ namespace OMM.Desktop
             }
 
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                //TODO change
+                FileProvider = new PhysicalFileProvider("S:\\osu!\\Songs"),
+                RequestPath = "/Songs"
+            });
 
             app.UseRouting();
 

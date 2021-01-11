@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using OMM.Desktop.Data;
+using OMM.Desktop.Data.OsuDataProvider;
 using System;
 using System.Collections.Generic;
 using System.Linq;

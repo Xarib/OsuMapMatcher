@@ -28,8 +28,8 @@ namespace OMM.Desktop.Data
 
             Console.WriteLine($"Connection lost {DateTime.Now} connections {ConnectedCircuits}");
 
-            if (ConnectedCircuits == 0)
-                Environment.Exit(0);
+            //if (ConnectedCircuits == 0)
+                //Environment.Exit(0);
 
             return Task.CompletedTask;
         }
