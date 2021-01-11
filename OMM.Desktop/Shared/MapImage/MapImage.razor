@@ -1,0 +1,25 @@
+﻿@using OMM.Desktop.Data.OsuDataProvider
+
+<div class="@Bem.Base()" style="background-image: url(@SongSelection.PathToBackgroundImage);">
+</div>
+
+@code{
+    private Bem Bem = new Bem("component-map-image");
+
+    [Parameter]
+    public SongSelectionChangedEventArgs SongSelection { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.SongSelection = new SongSelectionChangedEventArgs
+        {
+            Artist = "",
+            DifficultyName = "",
+            MapCreator = "",
+            PathToBackgroundImage = "",
+            SongName = "No Song selected"
+        };
+    }
+
+    private string emptyFlag => string.IsNullOrWhiteSpace(SongSelection.PathToBackgroundImage) ? "empty" : null;
+}

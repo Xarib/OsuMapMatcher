@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,7 +29,7 @@ namespace OMM.Desktop.Data.OsuDataProvider
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            this.timer = new Timer(this.ReadData, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(500));
+            this.timer = new Timer(this.ReadData, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(250));
 
             //TODO update this
             if (!Directory.Exists(path))
@@ -53,12 +55,13 @@ namespace OMM.Desktop.Data.OsuDataProvider
                     Console.WriteLine("No image");
                     return;
                 }
-                line = line.Substring(5, line.Length - 10);
+                //line = line.Trim(new char[] { '0', ',', '"' });
+                line = Regex.Replace(line, "^(-?\\d+,){0,2}\"|\"(,-?\\d+){0,2}$", "");
                 Console.WriteLine($"{songPath}/{line}");
-
+                
                 var args = new SongSelectionChangedEventArgs
                 {
-                    PathToBackgroundImage = "Songs/" + folderName + "/" + line,
+                    PathToBackgroundImage = "\"Songs/" + folderName + "/" + line + "\"",
                 };
 
                 this.OnSongSelectionChanged(args);
