@@ -2,14 +2,19 @@
 
 .component-map-image {
     margin-top: @baseSpacing * 3;
-    background-repeat: no-repeat;
     border-radius: @baseSpacing * 2;
+    background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
     min-width: 500px;
     width: 60%;
     max-width: 1500px;
     height: 250px;
+    background-color: @colorGrayLight;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
 
     &__background-image {
     }
@@ -17,5 +22,18 @@
     &__background-image--empty {
         background-color: @colorGrayLight;
         visibility: hidden;
+    }
+
+    &__text-container {
+        display: flex;
+        flex-direction: column;
+        padding: @baseSpacing * 2;
+        padding-left: @baseSpacing * 3;
+    }
+
+    &__text {
+        & + & {
+            padding-top: @baseSpacing;
+        }
     }
 }

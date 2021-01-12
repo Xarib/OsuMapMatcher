@@ -1,8 +1,13 @@
-﻿body {
+﻿@font-face {
+  font-family: MochyPop;
+  src: url("../webfonts/MochiyPopOne-Regular.ttf");
+}
+body {
   margin: 0;
   padding: 0;
   background-color: #1d1f20;
   color: #d4d8d9FF;
+  font-family: MochyPop;
 }
 #blazor-error-ui {
   background: lightyellow;
@@ -70,16 +75,29 @@
 }
 .component-map-image {
   margin-top: 24px;
-  background-repeat: no-repeat;
   border-radius: 16px;
+  background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   min-width: 500px;
   width: 60%;
   max-width: 1500px;
   height: 250px;
+  background-color: #30303b;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .component-map-image__background-image--empty {
   background-color: #30303b;
   visibility: hidden;
+}
+.component-map-image__text-container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  padding-left: 24px;
+}
+.component-map-image__text + .component-map-image__text {
+  padding-top: 8px;
 }

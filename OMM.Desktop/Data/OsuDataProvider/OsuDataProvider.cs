@@ -50,18 +50,33 @@ namespace OMM.Desktop.Data.OsuDataProvider
             var fileName = this.reader.GetOsuFileName();
             using (StreamReader sr = new StreamReader(songPath + "/" + fileName))
             {
-                if (!sr.TryReadLineStartingWith("0,0,", out var line))
+                var keyValuePair = new Dictionary<string, string>();
+                if (sr.TryReadLineStartingWith("[Metadata]", out var line))
+                {
+                    while (!string.IsNullOrWhiteSpace(line = sr.ReadLine()))
+                    {
+                        var pair = line.Split(':');
+                        keyValuePair.Add(pair[0], pair[1]);
+                    }
+                }
+
+                if (!sr.TryReadLineStartingWith("0,0,", out line))
                 {
                     Console.WriteLine("No image");
                     return;
                 }
-                //line = line.Trim(new char[] { '0', ',', '"' });
                 line = Regex.Replace(line, "^(-?\\d+,){0,2}\"|\"(,-?\\d+){0,2}$", "");
                 Console.WriteLine($"{songPath}/{line}");
-                
+
                 var args = new SongSelectionChangedEventArgs
                 {
                     PathToBackgroundImage = "\"Songs/" + folderName + "/" + line + "\"",
+                    Artist = keyValuePair.GetValueOrDefault("Artist"),
+                    ArtistUnicode = keyValuePair.GetValueOrDefault("ArtistUnicode"),
+                    DifficultyName = keyValuePair.GetValueOrDefault("Version"),
+                    MapCreator = keyValuePair.GetValueOrDefault("Creator"),
+                    Title = keyValuePair.GetValueOrDefault("Title"),
+                    TitleUnicode = keyValuePair.GetValueOrDefault("TitleUnicode"),
                 };
 
                 this.OnSongSelectionChanged(args);

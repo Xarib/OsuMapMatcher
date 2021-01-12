@@ -9,8 +9,10 @@ namespace OMM.Desktop.Data.OsuDataProvider
 
     public class SongSelectionChangedEventArgs : EventArgs
     {
-        public string SongName { get; set; }
+        public string Title { get; set; }
+        public string TitleUnicode { get; set; }
         public string Artist { get; set; }
+        public string ArtistUnicode { get; set; }
         public string MapCreator { get; set; }
         public string DifficultyName { get; set; }
         public string PathToBackgroundImage { get; set; }
