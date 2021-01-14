@@ -1,0 +1,29 @@
+﻿<div class="@Bem.Base()" @onmouseover="HandleHoverEnter" @onmouseout="HandleHoverLeave" @onclick="OnClick">
+    <div class="@Bem.Element("text-container", hoverFlag)">
+        <span>Text</span>
+    </div>
+    <div class="@Bem.Element("icon-container", hoverFlag)">
+        <i class="fas fa-download"></i>
+    </div>
+</div>
+
+
+@code {
+    private Bem Bem = new Bem("component-icon-button");
+
+    public string Class { get; set; }
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+    [Parameter]
+    public string IconName { get; set; }
+    [Parameter]
+    public string Style { get; set; }
+
+    private bool isHovered = false;
+
+    private string hoverFlag => isHovered ? "hovered" : null;
+
+    private void HandleHoverEnter() => isHovered = true;
+
+    private void HandleHoverLeave() => isHovered = false;
+}

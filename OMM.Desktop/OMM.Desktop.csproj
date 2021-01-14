@@ -8,11 +8,8 @@
 		<UserSecretsId>b647ab51-3722-4740-875a-d4795c28b083</UserSecretsId>
 		<TargetFramework>net5.0</TargetFramework>
 		<PublishSingleFile>true</PublishSingleFile>
-		<SelfContained>true</SelfContained>
 		<RuntimeIdentifier>win-x86</RuntimeIdentifier>
-		<PublishTrimmed>true</PublishTrimmed>
-		<PublishReadyToRun>true</PublishReadyToRun>
-		<TrimMode>Link</TrimMode>
+		
 	</PropertyGroup>
 
 	<ItemGroup>

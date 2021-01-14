@@ -1,0 +1,40 @@
+﻿@import "../../Pages/variables.less";
+
+.component-icon-button {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    height: 40px;
+    background-color: #00bca0;
+    border: 4px solid #00907b;
+    border-radius: 50px;
+    font-size: 12px;
+    padding: 0 @baseSpacing * 2;
+
+    &__text-container {
+        padding-right: @baseSpacing * 4;
+        transition: opacity 0.3s cubic-bezier(0.310, -0.105, 0.430, 1.400);
+    }
+
+    &__icon-container {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: 100%;
+        top: 0;
+        right: 12px;
+        font-size: 16px;
+        transition: all 0.3s cubic-bezier(0.310, -0.105, 0.430, 1.400);
+    }
+
+    &__text-container--hovered {
+        opacity: 0;
+    }
+
+    &__icon-container--hovered {
+        right: 50%;
+        font-size: 24px;
+        transform: translateX(50%);
+    }
+}

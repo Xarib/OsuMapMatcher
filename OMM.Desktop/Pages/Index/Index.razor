@@ -4,7 +4,9 @@
 
 <div class="@Bem.Base()">
     <MapImage SongSelection="@songSelection" />
-    <div class="@Bem.Base()" style="background-image: url('@songSelection?.PathToBackgroundImage');"></div>
+    <div class="@Bem.Element("search-container")">
+        <IconButton/>
+    </div>
 </div>
 
 @code{
