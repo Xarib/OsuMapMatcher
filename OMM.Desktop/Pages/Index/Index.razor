@@ -5,7 +5,15 @@
 <div class="@Bem.Base()">
     <MapImage SongSelection="@songSelection" />
     <div class="@Bem.Element("search-container")">
-        <IconButton/>
+        <span class="@Bem.Element("search-container-label")">
+            Custom Search
+        </span>
+        <IconButton Text="Search similar" 
+            IconName="fa-search" 
+            Style="fas" 
+            RootClass="@Bem.Element("search-button")"
+            OnClick="HandleSearchClick"
+        />
     </div>
 </div>
 
@@ -18,6 +26,11 @@
     {
         // Subscription to table record change events
         OsuDataProvider.SongChanged += this.SongChanged;
+    }
+
+    private void HandleSearchClick()
+    {
+        Console.WriteLine("sdkjsdfjkasdföl");
     }
 
     private async void SongChanged(object sender, SongSelectionChangedEventArgs e)

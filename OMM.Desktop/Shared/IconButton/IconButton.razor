@@ -1,9 +1,9 @@
-﻿<div class="@Bem.Base()" @onmouseover="HandleHoverEnter" @onmouseout="HandleHoverLeave" @onclick="OnClick">
+﻿<div class="@Bem.Base() @RootClass" @onmouseover="HandleHoverEnter" @onmouseout="HandleHoverLeave" @onclick="OnClick">
     <div class="@Bem.Element("text-container", hoverFlag)">
-        <span>Text</span>
+        <span>@Text</span>
     </div>
     <div class="@Bem.Element("icon-container", hoverFlag)">
-        <i class="fas fa-download"></i>
+        <i class="@Style @IconName"></i>
     </div>
 </div>
 
@@ -15,9 +15,13 @@
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
     [Parameter]
-    public string IconName { get; set; }
+    public string IconName { get; set; } = "";
     [Parameter]
-    public string Style { get; set; }
+    public string Style { get; set; } = "";
+    [Parameter]
+    public string Text { get; set; } = "";
+    [Parameter]
+    public string RootClass { get; set; } = "";
 
     private bool isHovered = false;
 
