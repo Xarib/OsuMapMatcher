@@ -23,6 +23,15 @@
       },
       "dotnetRunMessages": "true",
       "applicationUrl": "http://localhost:16302"
+    },
+	"OMM.Desktop-Prod": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      },
+      "dotnetRunMessages": "true",
+      "applicationUrl": "http://localhost:16302"
     }
   }
 }

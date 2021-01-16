@@ -1,6 +1,8 @@
 ﻿@page "/"
 @using OMM.Desktop.Data.OsuDataProvider
+@using OMM.Desktop.Data.OmmApi
 @inject OsuDataProvider OsuDataProvider
+@inject OmmApiService OmmApi
 
 <div class="@Bem.Base()">
     <MapImage SongSelection="@songSelection" />
@@ -22,15 +24,17 @@
 
     private SongSelectionChangedEventArgs songSelection;
 
+    private List<MapMatch> MapMatches;
+
     protected override void OnInitialized()
     {
         // Subscription to table record change events
         OsuDataProvider.SongChanged += this.SongChanged;
     }
 
-    private void HandleSearchClick()
+    private async void HandleSearchClick()
     {
-        Console.WriteLine("sdkjsdfjkasdföl");
+        this.MapMatches = await OmmApi.GetMapMatches(2142695, 5);
     }
 
     private async void SongChanged(object sender, SongSelectionChangedEventArgs e)

@@ -17,24 +17,24 @@ DATABASE = 'S:/OMM.db'
 
 def searialize_to_json(distance, tuple):
     return{
-        'k_distance' : distance,
-        'beatmap_id': tuple[1],
-        'hp': tuple[2],
-        'cs': tuple[3],
-        'od': tuple[4],
-        'ar': tuple[5],
-        'count_hit_circles': tuple[6],
-        'count_sliders': tuple[7],
-        'count_spinners': tuple[8],
-        'length': tuple[9],
-        'beatmapset_id': tuple[10],
-        'artist': tuple[11],
-        'artist_unicode': tuple[12],
-        'title': tuple[13],
-        'title_unicode': tuple[14],
-        'creator': tuple[15],
-        'rank_status': tuple[16],
-        'slim_cover_url': tuple[17],
+        'KDistance' : distance,
+        'BeatmapId': tuple[1],
+        'HP': tuple[2],
+        'CS': tuple[3],
+        'OD': tuple[4],
+        'AR': tuple[5],
+        'HitcircleCount': tuple[6],
+        'SliderCount': tuple[7],
+        'SpinnerCount': tuple[8],
+        'Length': tuple[9],
+        'BeatmapsetId': tuple[10],
+        'Artist': tuple[11],
+        'ArtistUnicode': tuple[12],
+        'Title': tuple[13],
+        'TitleUnicode': tuple[14],
+        'Creator': tuple[15],
+        'RankStatus': tuple[16],
+        'CoverUrl': tuple[17],
     }
 
 #KNN
@@ -79,7 +79,7 @@ def get_similiar_maps():
     if (match_count < 1):
         return "Count cant be smaller than 1", 400
 
-    if (match_count > 100):
+    if (match_count > 101):
         return "You cannot request more than 100 maps", 400
 
     with sqlite3.connect(DATABASE) as connection:
@@ -133,7 +133,7 @@ def get_similiar_maps():
         cursor.execute(query)
         map_datas = cursor.fetchall()
     
-    return jsonify(matches=[searialize_to_json(distances[i], e) for i, e in enumerate(map_datas)])
+    return jsonify([searialize_to_json(distances[i], e) for i, e in enumerate(map_datas)])
 
 if __name__ == '__main__':
     app.run('localhost', 55555)

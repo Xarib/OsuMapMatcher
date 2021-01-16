@@ -1,0 +1,55 @@
+﻿using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
+
+namespace OMM.Desktop.Data.OmmApi
+{
+    public class OmmApiService
+    {
+        private readonly OmmOptions _options;
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public OmmApiService(IOptions<OmmOptions> options, IHttpClientFactory factory)
+        {
+            _httpClientFactory = factory;
+            //_options = options.Value;
+        }
+
+        public Task Test()
+        {
+            Console.WriteLine(_options.Url);
+            return Task.CompletedTask;
+        }
+
+        public async Task<List<MapMatch>> GetMapMatches(int beatmapId, int count = 10)
+        {
+            var client = _httpClientFactory.CreateClient("OmmApi");
+
+            try
+            {
+                count++;
+                var matches = await client.GetFromJsonAsync<List<MapMatch>>($"api/knn/ranked?id={beatmapId}&count={count}");
+                matches.RemoveAll(match => match.KDistance == 0);
+                return matches;
+            }
+            catch (HttpRequestException) // Non success
+            {
+                Console.WriteLine("An error occurred.");
+            }
+            catch (NotSupportedException) // When content type is not valid
+            {
+                Console.WriteLine("The content type is not supported.");
+            }
+            catch (Exception) // Invalid JSON
+            {
+                Console.WriteLine("Invalid JSON.");
+            }
+
+            return null;
+        }
+    }
+}

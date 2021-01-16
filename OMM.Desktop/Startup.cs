@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using OMM.Desktop.Data;
+using OMM.Desktop.Data.OmmApi;
 using OMM.Desktop.Data.OsuDataProvider;
 using System;
 using System.Collections.Generic;
@@ -32,9 +33,15 @@ namespace OMM.Desktop
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            //services.Configure<OmmOptions>(Configuration.GetSection(OmmOptions.Omm));
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<OsuDataProvider>();
+            services.AddSingleton<OmmApiService>();
             services.AddSingleton<CircuitHandler, TrackingCircuitHandler>();
+            services.AddHttpClient("OmmApi", client =>
+            {
+                client.BaseAddress = new Uri(Configuration.GetSection("Omm").GetValue<string>("Url"));
+            });
             services.AddBlazorPolyfill();
         }
 
