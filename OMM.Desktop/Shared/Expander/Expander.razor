@@ -1,0 +1,35 @@
+﻿<div class="@Bem.Base()">
+    <div class="@Bem.Element("header")">
+        <div>
+            @Header
+        </div>
+        <div class="@Bem.Element("icon-container")" @onclick="ToggleExpander">
+            <i class="fas fa-chevron-up @Bem.Element("icon", expandedFlag)"></i>
+        </div>
+    </div>
+    <div class="@Bem.Element("body", expandedFlag)">
+        @Body
+    </div>
+    <div class="@Bem.Element("footer")">
+        @Footer
+    </div>
+</div>
+
+@code {
+    private Bem Bem = new Bem("component-expander");
+    [Parameter]
+    public RenderFragment Header { get; set; }
+    [Parameter]
+    public RenderFragment Body { get; set; }
+    [Parameter]
+    public RenderFragment Footer { get; set; }
+
+    private bool isExpanded = false;
+
+    private string expandedFlag => isExpanded ? "expanded" : null;
+
+    private void ToggleExpander()
+    {
+        isExpanded = !isExpanded;
+    }
+}

@@ -1,0 +1,47 @@
+﻿@import "../../Pages/variables.less";
+
+.component-expander {
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__body{
+        max-height: 0px;
+        opacity: 0;
+        transition-duration: 0.5s;
+        transition-timing-function: ease-in-out;
+    }
+
+    &__body--expanded{
+        max-height: 1000px;
+        opacity: 1;
+    }
+
+    &__icon-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 40px;
+        margin: 0 @baseSpacing * 2;
+        transition-duration: @transitionDuration;
+    }
+
+    &__icon-container:hover {
+        background-color: #2b2f33;
+    }
+
+    &__icon {
+        transition-property: all;
+        transition-duration: @transitionDuration;
+        transition-timing-function: @transitionTimingFunction;
+        font-size: 20px;
+    }
+
+    &__icon--expanded {
+        transform: rotate(180deg);
+    }
+}

@@ -1,0 +1,35 @@
+﻿@using OMM.Desktop.Data.OmmApi
+
+<div class="@Bem.Base()">
+    <Expander>
+        <Header>
+            Header
+        </Header>
+        <Body>
+            Body
+        </Body>
+        <Footer>
+            <IconButton Text="osu!direct"
+                        IconName="fa-download"
+                        Style="fas"
+                        RootClass="@Bem.Element("osu-direct")"
+                        OnClick="Test" />
+            <IconButton Text="osu!direct"
+                        IconName="fa-external-link-alt"
+                        Style="fas"
+                        RootClass="@Bem.Element("map-info")"
+                        OnClick="Test" />
+        </Footer>
+    </Expander>
+</div>
+
+@code {
+    private Bem Bem = new Bem("component-map-match");
+    [Parameter]
+    public MapMatch MapMatch { get; set; }
+
+    private void Test()
+    {
+
+    }
+}

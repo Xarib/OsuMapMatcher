@@ -10,13 +10,14 @@
         <span class="@Bem.Element("search-container-label")">
             Custom Search
         </span>
-        <IconButton Text="Search similar" 
-            IconName="fa-search" 
-            Style="fas" 
-            RootClass="@Bem.Element("search-button")"
-            OnClick="HandleSearchClick"
-        />
+        <IconButton Text="Find matching maps"
+                    IconName="fa-search"
+                    Style="fas"
+                    RootClass="@Bem.Element("search-button")"
+                    OnClick="HandleSearchClick" />
+
     </div>
+    <MapMatchTile MapMatch="null" />
 </div>
 
 @code{

@@ -25,6 +25,8 @@ namespace OMM.Desktop.Data.OmmApi
         public string Title { get; set; }
         public string TitleUnicode { get; set; }
         public double Length { get; set; }
+        public double Bpm { get; set; }
+        public string DifficultyName { get; set; }
     }
 
     public enum RankStatus
