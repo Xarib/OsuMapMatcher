@@ -10,19 +10,11 @@ namespace OMM.Desktop.Data.OmmApi
 {
     public class OmmApiService
     {
-        private readonly OmmOptions _options;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public OmmApiService(IOptions<OmmOptions> options, IHttpClientFactory factory)
+        public OmmApiService(IHttpClientFactory factory)
         {
             _httpClientFactory = factory;
-            //_options = options.Value;
-        }
-
-        public Task Test()
-        {
-            Console.WriteLine(_options.Url);
-            return Task.CompletedTask;
         }
 
         public async Task<List<MapMatch>> GetMapMatches(int beatmapId, int count = 10)

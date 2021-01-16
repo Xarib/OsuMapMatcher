@@ -68,8 +68,7 @@ namespace OMM.Desktop.Data.OsuDataProvider
                 line = Regex.Replace(line, "^(-?\\d+,){0,2}\"|\"(,-?\\d+){0,2}$", "");
                 Console.WriteLine($"{songPath}/{line}");
 
-                var args = new SongSelectionChangedEventArgs
-                {
+                this.OnSongSelectionChanged(new SongSelectionChangedEventArgs {
                     PathToBackgroundImage = "\"Songs/" + folderName + "/" + line + "\"",
                     Artist = keyValuePair.GetValueOrDefault("Artist"),
                     ArtistUnicode = keyValuePair.GetValueOrDefault("ArtistUnicode"),
@@ -77,9 +76,7 @@ namespace OMM.Desktop.Data.OsuDataProvider
                     MapCreator = keyValuePair.GetValueOrDefault("Creator"),
                     Title = keyValuePair.GetValueOrDefault("Title"),
                     TitleUnicode = keyValuePair.GetValueOrDefault("TitleUnicode"),
-                };
-
-                this.OnSongSelectionChanged(args);
+                });
             }
         }
 

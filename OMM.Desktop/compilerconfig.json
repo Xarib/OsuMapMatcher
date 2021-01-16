@@ -1,7 +1,7 @@
 [
   {
     "outputFile": "wwwroot/css/app.css",
-    "inputFile": "Pages/app.less",
+    "inputFile": "Content/app.less",
     "minify": {
       "enabled": true
     }

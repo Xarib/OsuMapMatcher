@@ -31,10 +31,11 @@ namespace OMM.Desktop
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddRazorPages(options =>
+            {
+                options.RootDirectory = "/Content";
+            });
             services.AddServerSideBlazor();
-            //services.Configure<OmmOptions>(Configuration.GetSection(OmmOptions.Omm));
-            services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<OsuDataProvider>();
             services.AddSingleton<OmmApiService>();
             services.AddSingleton<CircuitHandler, TrackingCircuitHandler>();

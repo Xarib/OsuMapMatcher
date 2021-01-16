@@ -12,22 +12,22 @@
 </div>
 
 @code{
-        private Bem Bem = new Bem("component-map-image");
+    private Bem Bem = new Bem("component-map-image");
 
-        [Parameter]
-        public SongSelectionChangedEventArgs SongSelection { get; set; }
+    [Parameter]
+    public SongSelectionChangedEventArgs SongSelection { get; set; }
 
-        protected override void OnInitialized()
+    protected override void OnInitialized()
+    {
+        this.SongSelection = new SongSelectionChangedEventArgs
         {
-            this.SongSelection = new SongSelectionChangedEventArgs
-            {
-                Artist = "",
-                DifficultyName = "",
-                MapCreator = "",
-                PathToBackgroundImage = "",
-                Title = "",
-                ArtistUnicode = "",
-                TitleUnicode = "",
+            Artist = "",
+            DifficultyName = "",
+            MapCreator = "",
+            PathToBackgroundImage = "",
+            Title = "",
+            ArtistUnicode = "",
+            TitleUnicode = "",
         };
     }
 
