@@ -95,7 +95,7 @@ namespace OMM.Desktop.Data.OsuDataProvider
         {
             this.timer?.Change(Timeout.Infinite, 0);
 
-            this.reader.Dispose();
+            //this.reader.Dispose();
 
             return Task.CompletedTask;
         }

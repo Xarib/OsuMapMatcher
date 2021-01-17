@@ -1,6 +1,6 @@
 ﻿<div class="@Bem.Base()">
     <div class="@Bem.Element("header")">
-        <div>
+        <div class="@Bem.Element("header-content")">
             @Header
         </div>
         <div class="@Bem.Element("icon-container")" @onclick="ToggleExpander">
@@ -23,13 +23,16 @@
     public RenderFragment Body { get; set; }
     [Parameter]
     public RenderFragment Footer { get; set; }
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnExpand { get; set; }
 
-    private bool isExpanded = false;
+    public bool isExpanded { get; set; } = false;
 
     private string expandedFlag => isExpanded ? "expanded" : null;
 
     private void ToggleExpander()
     {
+        this.OnExpand.InvokeAsync();
         isExpanded = !isExpanded;
     }
 }

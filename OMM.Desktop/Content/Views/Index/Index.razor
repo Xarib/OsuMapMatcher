@@ -17,15 +17,18 @@
                     OnClick="HandleSearchClick" />
 
     </div>
-    <MapMatchTile MapMatch="null" />
+    @foreach (var map in this.MapMatches)
+    {
+        <MapMatchTile MapMatch="map" />
+    }
 </div>
 
 @code{
     private Bem Bem = new Bem("view-index");
 
-    private SongSelectionChangedEventArgs songSelection;
+    private SongSelectionChangedEventArgs songSelection = null;
 
-    private List<MapMatch> MapMatches;
+    private List<MapMatch> MapMatches = new List<MapMatch>();
 
     protected override void OnInitialized()
     {
@@ -36,6 +39,7 @@
     private async void HandleSearchClick()
     {
         this.MapMatches = await OmmApi.GetMapMatches(2142695, 5);
+        await InvokeAsync(() => base.StateHasChanged());
     }
 
     private async void SongChanged(object sender, SongSelectionChangedEventArgs e)

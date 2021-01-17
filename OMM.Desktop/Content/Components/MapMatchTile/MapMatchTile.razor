@@ -1,9 +1,16 @@
 ﻿@using OMM.Desktop.Data.OmmApi
+@using OMM.Desktop.Content.Components.Expander
 
 <div class="@Bem.Base()">
-    <Expander>
+    <Expander OnExpand="Test">
         <Header>
-            Header
+            <img 
+                 class="@Bem.Element("preview-image", expandedFlag)"
+                 src="" />
+            <div class="@Bem.Element("map-metadata")">
+                <span>@MapMatch?.Title</span>
+                <span>[@MapMatch?.DifficultyName]</span>
+            </div>
         </Header>
         <Body>
             Body
@@ -12,12 +19,12 @@
             <IconButton Text="osu!direct"
                         IconName="fa-download"
                         Style="fas"
-                        RootClass="@Bem.Element("osu-direct")"
+                        RootClass="@Bem.Element("button-osu-direct")"
                         OnClick="Test" />
-            <IconButton Text="osu!direct"
+            <IconButton Text="More Info"
                         IconName="fa-external-link-alt"
                         Style="fas"
-                        RootClass="@Bem.Element("map-info")"
+                        RootClass="@Bem.Element("button-map-info")"
                         OnClick="Test" />
         </Footer>
     </Expander>
@@ -25,11 +32,15 @@
 
 @code {
     private Bem Bem = new Bem("component-map-match");
+
     [Parameter]
-    public MapMatch MapMatch { get; set; }
+    public MapMatch MapMatch { get; set; } = null;
+
+    public bool isExpanded { get; set; } = false;
+    private string expandedFlag => isExpanded ? "expanded" : null;
 
     private void Test()
     {
-
+        isExpanded = !isExpanded;
     }
 }

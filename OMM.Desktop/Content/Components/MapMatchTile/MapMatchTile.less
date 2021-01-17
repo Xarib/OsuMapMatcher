@@ -3,6 +3,36 @@
     min-width: 650px;
     width: 60%;
     max-width: 1500px;
+    margin-bottom: @baseSpacing * 2;
     border-radius: @borderRadius;
     background-color: #2b2f33;
+
+    &__preview-image {
+        border-top-left-radius: @borderRadius;
+        border-bottom-left-radius: @borderRadius;
+        transition-duration: 1s;
+        background-color: @colorGrayLight;
+        height: 108px;
+        width: 172px;
+    }
+
+    &__preview-image--expanded {
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: @borderRadius;
+    }
+
+    &__map-metadata {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__button-osu-direct {
+        background-color: #e575cf;
+        border-color: #c462b0;
+    }
+
+    &__button-map-info {
+        background-color: #7c7cef;
+        border-color: #6767c6;
+    }
 }

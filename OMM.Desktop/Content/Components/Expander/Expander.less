@@ -1,20 +1,27 @@
 ﻿@import "../../variables.less";
 
 .component-expander {
+    position: relative;
+
     &__header {
         display: flex;
         align-items: center;
         justify-content: space-between;
     }
 
-    &__body{
+    &__header-content {
+        display: flex;
+        width: 100%;
+    }
+
+    &__body {
         max-height: 0px;
         opacity: 0;
         transition-duration: 0.5s;
         transition-timing-function: ease-in-out;
     }
 
-    &__body--expanded{
+    &__body--expanded {
         max-height: 1000px;
         opacity: 1;
     }
@@ -43,5 +50,11 @@
 
     &__icon--expanded {
         transform: rotate(180deg);
+    }
+
+    &__footer {
+        position: absolute;
+        bottom: @baseSpacing;
+        right: 72px;
     }
 }

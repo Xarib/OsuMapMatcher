@@ -1,4 +1,3 @@
-using Blazor.Polyfill.Server;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Server.Circuits;
@@ -10,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using OMM.Desktop.Data;
 using OMM.Desktop.Data.OmmApi;
 using OMM.Desktop.Data.OsuDataProvider;
+using OsuMemoryDataProvider;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,7 +43,6 @@ namespace OMM.Desktop
             {
                 client.BaseAddress = new Uri(Configuration.GetSection("Omm").GetValue<string>("Url"));
             });
-            services.AddBlazorPolyfill();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,8 +57,6 @@ namespace OMM.Desktop
             {
                 app.UseExceptionHandler("/Error");
             }
-
-            app.UseBlazorPolyfill();
 
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
