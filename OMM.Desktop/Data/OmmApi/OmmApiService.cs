@@ -17,8 +17,11 @@ namespace OMM.Desktop.Data.OmmApi
             _httpClientFactory = factory;
         }
 
-        public async Task<List<MapMatch>> GetMapMatches(int beatmapId, int count = 10)
+        public async Task<List<MapMatch>> GetMapMatches(int? beatmapId, int count = 10)
         {
+            if (beatmapId is null)
+                beatmapId = 2142695; //TODO change to null
+
             var client = _httpClientFactory.CreateClient("OmmApi");
 
             try
@@ -38,7 +41,7 @@ namespace OMM.Desktop.Data.OmmApi
             }
             catch (Exception) // Invalid JSON
             {
-                Console.WriteLine("Invalid JSON.");
+                Console.WriteLine("Oopsie woopsie Xarib made an oopsie. (Invalid JSON)");
             }
 
             return null;

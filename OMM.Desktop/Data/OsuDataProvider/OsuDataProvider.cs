@@ -69,6 +69,7 @@ namespace OMM.Desktop.Data.OsuDataProvider
                 Console.WriteLine($"{songPath}/{line}");
 
                 this.OnSongSelectionChanged(new SongSelectionChangedEventArgs {
+                    BeatmapId = currentId,
                     PathToBackgroundImage = "\"Songs/" + folderName + "/" + line + "\"",
                     Artist = keyValuePair.GetValueOrDefault("Artist"),
                     ArtistUnicode = keyValuePair.GetValueOrDefault("ArtistUnicode"),

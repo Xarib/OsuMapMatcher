@@ -1,0 +1,51 @@
+﻿@import "../../variables.less";
+
+.component-filter-chips {
+    display: flex;
+
+    &__chips-container {
+        display: flex;
+    }
+
+    &__filter-chip {
+        display: inline-flex;
+        align-items: center;
+        border: 4px solid #3e4550;
+        background-color: @colorGrayLight;
+        border-radius: 40px;
+        margin: @halfSpacing;
+    }
+
+    &__chip-name {
+        padding: 0 @baseSpacing;
+    }
+
+    &__chip-input {
+        text-align: center;
+        height: 24px;
+        width: 32px;
+        padding: 0;
+        border: none;
+        border-radius: 24px;
+    }
+
+    &__button-add-filter {
+        display: inline-flex;
+        border: 4px solid #3e4550;
+        background-color: @colorGrayLight;
+        border-radius: 40px;
+        margin: @halfSpacing;
+    }
+
+    &__chip-icon-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        width: 40px;
+    }
+
+    &__chip-icon--remove {
+        transform: rotate(45deg)
+    }
+}

@@ -3,6 +3,7 @@
 @using OMM.Desktop.Data.OmmApi
 @inject OsuDataProvider OsuDataProvider
 @inject OmmApiService OmmApi
+@implements IDisposable
 
 <div class="@Bem.Base()">
     <MapImage SongSelection="@songSelection" />
@@ -15,7 +16,7 @@
                     Style="fas"
                     RootClass="@Bem.Element("search-button")"
                     OnClick="HandleSearchClick" />
-
+        <FilterChips FilterClass="@Filter" OnChange="HandleChipChange"/>
     </div>
     @foreach (var map in this.MapMatches)
     {
@@ -30,15 +31,24 @@
 
     private List<MapMatch> MapMatches = new List<MapMatch>();
 
+    private OmmApiFilterDto Filter = new OmmApiFilterDto
+    {
+        Count = 10,
+    };
+
     protected override void OnInitialized()
     {
-        // Subscription to table record change events
         OsuDataProvider.SongChanged += this.SongChanged;
+    }
+
+    public void Dispose()
+    {
+        OsuDataProvider.SongChanged -= this.SongChanged;
     }
 
     private async void HandleSearchClick()
     {
-        this.MapMatches = await OmmApi.GetMapMatches(2142695, 5);
+        this.MapMatches = await OmmApi.GetMapMatches(songSelection?.BeatmapId, Filter.Count);
         await InvokeAsync(() => base.StateHasChanged());
     }
 
@@ -47,5 +57,10 @@
         this.songSelection = e;
 
         await InvokeAsync(() => base.StateHasChanged());
+    }
+
+    private void HandleChipChange(object o)
+    {
+        this.Filter = o as OmmApiFilterDto;
     }
 }

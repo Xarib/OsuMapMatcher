@@ -1,0 +1,116 @@
+﻿@using System.ComponentModel
+
+<div class="@Bem.Base()">
+    <div class="@Bem.Element("chips-container")">
+        @foreach (var (name, value) in AppliedFilters)
+        {
+            <div class="@Bem.Element("filter-chip")">
+                <span class="@Bem.Element("chip-name")">@name</span>
+                <input class="@Bem.Element("chip-input")" value="@value" @oninput="@(e => HandleInput(e, name))"/>
+                <div class="@Bem.Element("chip-icon-container")" @onclick="(e => HandleRemoveFilterClick(name))">
+                    <i class="fas fa-plus @Bem.Element("chip-icon", "remove")"></i>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="@Bem.Element("button-add-filter")">
+        @if (NewFilter)
+        {
+            <select class="@Bem.Element("chip-selection")" @onchange="HandleFilterTypeSelect">
+                <option disabled selected>Select a filter</option>
+                @foreach (var filterName in AvailableFilters)
+                {
+                    <option value="@filterName">
+                        @filterName
+                    </option>
+                }
+            </select>
+            <div class="@Bem.Element("chip-icon-container")" @onclick="HandleCreateFilterCloseClick">
+                <i class="fas fa-plus @Bem.Element("chip-icon", "remove")"></i>
+            </div>
+        }
+        else
+        {
+            <div class="@Bem.Element("chip-icon-container")" @onclick="HandleCreateFilterClick">
+                <i class="fas fa-plus @Bem.Element("chip-icon")"></i>
+            </div>
+        }
+    </div> 
+</div>
+<div>
+    @foreach (var error in ValidationErrors.Values)
+    {
+        <span>@error</span>
+    }
+</div>
+
+@code {
+    private Bem Bem = new Bem("component-filter-chips");
+
+    [Parameter]
+    public object FilterClass { get; set; }
+    [Parameter]
+    public EventCallback<object> OnChange { get; set; }
+
+    private bool NewFilter = false;
+
+    private SortedDictionary<string, dynamic> AppliedFilters = new SortedDictionary<string, dynamic>();
+
+    private SortedDictionary<string, string> ValidationErrors = new SortedDictionary<string, string>();
+
+    private List<string> AvailableFilters = new List<string>();
+
+    private Type Type;
+
+    protected override void OnParametersSet()
+    {
+        this.AvailableFilters = this.FilterClass.GetType()
+            .GetProperties()
+            .Select(prop => prop.Name)
+            .OrderBy(prop => prop)
+            .ToList();
+
+        this.Type = this.FilterClass.GetType();
+    }
+
+    private void HandleCreateFilterClick()
+        => this.NewFilter = true;
+
+    private void HandleCreateFilterCloseClick()
+        => this.NewFilter = false;
+
+    private void HandleInput(ChangeEventArgs e, string filterName)
+    {
+        if (!int.TryParse(e.Value as string, out int value))//TODO change this to
+        {
+            ValidationErrors.TryAdd(filterName, $"'{filterName}' is not a number");
+            return;
+        }
+
+        _ = ValidationErrors.Remove(filterName);
+        this.Type.GetProperty(filterName).SetValue(FilterClass, value);
+        this.OnChange.InvokeAsync(this.FilterClass);
+    }
+
+    private void HandleRemoveFilterClick(string filterName)
+    {
+        this.NewFilter = false;
+        this.AppliedFilters.Remove(filterName);
+        this.AvailableFilters.Add(filterName);
+
+        this.OnChange.InvokeAsync(this.FilterClass);
+    }
+
+    private void HandleFilterTypeSelect(ChangeEventArgs args)
+    {
+        var filterName = args.Value as string;
+        if (string.IsNullOrWhiteSpace(filterName))
+            return;
+
+        this.AvailableFilters.RemoveAll(filter => filter == filterName);
+        this.AppliedFilters.TryAdd(filterName, this.Type.GetProperty(filterName).GetValue(FilterClass, null));
+        this.NewFilter = false;
+
+        this.OnChange.InvokeAsync(this.FilterClass);
+    }
+}
