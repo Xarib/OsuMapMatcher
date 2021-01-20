@@ -1,0 +1,40 @@
+﻿@import "../../variables.less";
+
+.component-error-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 256px;
+    width: 420px;
+    display: none;
+    background-color: #141516;
+    transform: translate(-50%,-50%);
+    border-radius: @borderRadius;
+    border: 2px solid @colorWhite;
+
+    &__icon {
+        color: #cc5905;
+        font-size: 48px;
+    }
+
+    &__body {
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: center;
+    }
+
+    &__ok-button {
+    }
+}
+
+.component-error-message--error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: @baseSpacing * 3;
+}

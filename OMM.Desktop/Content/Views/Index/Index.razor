@@ -22,6 +22,7 @@
     {
         <MapMatchTile MapMatch="map" />
     }
+    <ErrorMessage ErrorMessages="errorMessages"/>
 </div>
 
 @code{
@@ -30,6 +31,8 @@
     private SongSelectionChangedEventArgs songSelection = null;
 
     private List<MapMatch> MapMatches = new List<MapMatch>();
+
+    private List<string> errorMessages = new List<string>();
 
     private OmmApiFilterDto Filter = new OmmApiFilterDto
     {
@@ -48,8 +51,15 @@
 
     private async void HandleSearchClick()
     {
-        this.MapMatches = await OmmApi.GetMapMatches(songSelection?.BeatmapId, Filter.Count);
-        await InvokeAsync(() => base.StateHasChanged());
+        var mapsOrErrors = await OmmApi.GetMapMatches(songSelection?.BeatmapId, Filter.Count);
+        if (mapsOrErrors.TryGetLeftValue(out var maps))
+        {
+            this.MapMatches = maps;
+            await InvokeAsync(() => base.StateHasChanged());
+            return;
+        }
+
+        this.errorMessages = mapsOrErrors.Right;
     }
 
     private async void SongChanged(object sender, SongSelectionChangedEventArgs e)

@@ -17,10 +17,18 @@ namespace OMM.Desktop.Data.OmmApi
             _httpClientFactory = factory;
         }
 
-        public async Task<List<MapMatch>> GetMapMatches(int? beatmapId, int count = 10)
+        public async Task<Either<List<MapMatch>, List<string>>> GetMapMatches(int? beatmapId, int count = 10)
         {
+            var errors = new List<string>();
+
             if (beatmapId is null)
-                beatmapId = 2142695; //TODO change to null
+                errors.Add("No beatmap selected");
+
+            if (count < 1 || count > 100)
+                errors.Add("You can get form 1 to 100 maps");
+
+            if (errors.Count != 0)
+                return errors;
 
             var client = _httpClientFactory.CreateClient("OmmApi");
 
@@ -33,18 +41,18 @@ namespace OMM.Desktop.Data.OmmApi
             }
             catch (HttpRequestException) // Non success
             {
-                Console.WriteLine("An error occurred.");
+                errors.Add("An error occurred.");
             }
             catch (NotSupportedException) // When content type is not valid
             {
-                Console.WriteLine("The content type is not supported.");
+                errors.Add("The content type is not supported.");
             }
             catch (Exception) // Invalid JSON
             {
-                Console.WriteLine("Oopsie woopsie Xarib made an oopsie. (Invalid JSON)");
+                errors.Add("Oopsie woopsie Xarib made an oopsie. (Invalid JSON)");
             }
 
-            return null;
+            return errors;
         }
     }
 }
