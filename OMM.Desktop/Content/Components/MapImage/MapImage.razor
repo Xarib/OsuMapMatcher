@@ -1,14 +1,23 @@
 ﻿@using OMM.Desktop.Data.OsuDataProvider
 
 <div class="@Bem.Base()" style="background-image: linear-gradient( rgba(0, 0, 0, @strength), rgba(0, 0, 0, @strength) ), url(@SongSelection.PathToBackgroundImage);">
-    <div class="@Bem.Element("text-container")">
-        <span class="@Bem.Element("text")">@SongSelection.Artist</span>
-        <span class="@Bem.Element("text")">Mapper: @SongSelection.MapCreator</span>
-    </div>
-    <div class="@Bem.Element("text-container")">
-        <span class="@Bem.Element("text")">[@SongSelection.DifficultyName]</span>
-        <span class="@Bem.Element("text")">@SongSelection.Title</span>
-    </div>
+    @if (MapAvailable)
+    {
+        <div class="@Bem.Element("text-container")">
+            <span class="@Bem.Element("text")">@SongSelection.Artist</span>
+            <span class="@Bem.Element("text")">Mapper: @SongSelection.MapCreator</span>
+        </div>
+        <div class="@Bem.Element("text-container")">
+            <span class="@Bem.Element("text")">[@SongSelection.DifficultyName]</span>
+            <span class="@Bem.Element("text")">@SongSelection.Title</span>
+        </div>
+    }
+    else
+    {
+        <div class="@Bem.Element("text-container")">
+            <span>Map unavailable</span>
+        </div>
+    }
 </div>
 
 @code{
@@ -16,6 +25,8 @@
 
     [Parameter]
     public SongSelectionChangedEventArgs SongSelection { get; set; }
+    [Parameter]
+    public bool MapAvailable { get; set; }
 
     protected override void OnInitialized()
     {

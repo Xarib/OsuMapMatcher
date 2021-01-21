@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,14 @@ namespace OMM.Desktop.Data.OmmApi
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
+        public static HashSet<int> AvailableMaps { get; set; } = new HashSet<int>();
+
         public OmmApiService(IHttpClientFactory factory)
         {
             _httpClientFactory = factory;
+
+            if (AvailableMaps.Count == 0)
+                this.GetAvailableMaps();
         }
 
         public async Task<Either<List<MapMatch>, List<string>>> GetMapMatches(int? beatmapId, int count = 10)
@@ -25,34 +31,60 @@ namespace OMM.Desktop.Data.OmmApi
                 errors.Add("No beatmap selected");
 
             if (count < 1 || count > 100)
-                errors.Add("You can get form 1 to 100 maps");
+                errors.Add("You can retreive 1 to 100 maps");
 
             if (errors.Count != 0)
                 return errors;
 
-            var client = _httpClientFactory.CreateClient("OmmApi");
-
-            try
+            using (var client = _httpClientFactory.CreateClient("OmmApi"))
             {
-                count++;
-                var matches = await client.GetFromJsonAsync<List<MapMatch>>($"api/knn/ranked?id={beatmapId}&count={count}");
-                matches.RemoveAll(match => match.KDistance == 0);
-                return matches;
-            }
-            catch (HttpRequestException) // Non success
-            {
-                errors.Add("An error occurred.");
-            }
-            catch (NotSupportedException) // When content type is not valid
-            {
-                errors.Add("The content type is not supported.");
-            }
-            catch (Exception) // Invalid JSON
-            {
-                errors.Add("Oopsie woopsie Xarib made an oopsie. (Invalid JSON)");
+                try
+                {
+                    count++;
+                    var matches = await client.GetFromJsonAsync<List<MapMatch>>($"api/knn/ranked?id={beatmapId}&count={count}");
+                    matches.RemoveAll(match => match.KDistance == 0);
+                    return matches;
+                }
+                catch (HttpRequestException) // Non success
+                {
+                    errors.Add("An error occurred.");
+                }
+                catch (NotSupportedException) // When content type is not valid
+                {
+                    errors.Add("The content type is not supported.");
+                }
+                catch (Exception) // Invalid JSON
+                {
+                    errors.Add("Oopsie woopsie Xarib made an oopsie. (Invalid JSON)");
+                }
             }
 
             return errors;
+        }
+
+        private void GetAvailableMaps()
+        {
+            var errors = new List<string>();
+
+            using (var client = _httpClientFactory.CreateClient("OmmApi"))
+            {
+                try
+                {
+                    AvailableMaps = JsonConvert.DeserializeObject<HashSet<int>>(client.GetStringAsync("api/knn/maps").Result);
+                }
+                catch (HttpRequestException) // Non success
+                {
+                    errors.Add("An error occurred.");
+                }
+                catch (NotSupportedException) // When content type is not valid
+                {
+                    errors.Add("The content type is not supported.");
+                }
+                catch (Exception) // Invalid JSON
+                {
+                    errors.Add("Oopsie woopsie Xarib made an oopsie. (Invalid JSON)");
+                }
+            }
         }
     }
 }

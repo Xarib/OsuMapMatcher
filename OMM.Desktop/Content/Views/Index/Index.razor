@@ -6,7 +6,7 @@
 @implements IDisposable
 
 <div class="@Bem.Base()">
-    <MapImage SongSelection="@songSelection" />
+    <MapImage SongSelection="@songSelection" MapAvailable="mapAvailable"/>
     <div class="@Bem.Element("search-container")">
         <span class="@Bem.Element("search-container-label")">
             Custom Search
@@ -14,11 +14,11 @@
         <IconButton Text="Find matching maps"
                     IconName="fa-search"
                     Style="fas"
-                    RootClass="@Bem.Element("search-button")"
+                    RootClass="@Bem.Element("search-button", availableFlag)"
                     OnClick="HandleSearchClick" />
         <FilterChips FilterClass="@Filter" OnChange="HandleChipChange"/>
     </div>
-    @foreach (var map in this.MapMatches)
+    @foreach (var map in this.mapMatches)
     {
         <MapMatchTile MapMatch="map" />
     }
@@ -30,9 +30,13 @@
 
     private SongSelectionChangedEventArgs songSelection = null;
 
-    private List<MapMatch> MapMatches = new List<MapMatch>();
+    private List<MapMatch> mapMatches = new List<MapMatch>();
 
     private List<string> errorMessages = new List<string>();
+
+    private bool mapAvailable = true;
+
+    private string availableFlag => mapAvailable ? null : "unavailable";
 
     private OmmApiFilterDto Filter = new OmmApiFilterDto
     {
@@ -51,10 +55,13 @@
 
     private async void HandleSearchClick()
     {
+        if (!this.mapAvailable)
+            return;
+
         var mapsOrErrors = await OmmApi.GetMapMatches(songSelection?.BeatmapId, Filter.Count);
         if (mapsOrErrors.TryGetLeftValue(out var maps))
         {
-            this.MapMatches = maps;
+            this.mapMatches = maps;
             await InvokeAsync(() => base.StateHasChanged());
             return;
         }
@@ -65,6 +72,8 @@
     private async void SongChanged(object sender, SongSelectionChangedEventArgs e)
     {
         this.songSelection = e;
+
+        this.mapAvailable = OmmApiService.AvailableMaps.Contains(this.songSelection.BeatmapId);
 
         await InvokeAsync(() => base.StateHasChanged());
     }

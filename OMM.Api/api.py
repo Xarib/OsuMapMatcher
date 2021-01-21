@@ -66,7 +66,7 @@ def get_all_map_ids():
         cursor.execute("SELECT BeatmapId FROM Beatmap")
         ids = cursor.fetchall()
 
-    return jsonify(ids=[e[0] for e in ids])
+    return jsonify([e[0] for e in ids])
 
 
 @app.route('/api/knn/ranked', methods=['GET'])
