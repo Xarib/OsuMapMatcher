@@ -289,6 +289,12 @@ body {
 .view-index__search-button--unavailable {
   background-color: #014238;
 }
+.view-settings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
 .component-error-message {
   position: absolute;
   top: 50%;

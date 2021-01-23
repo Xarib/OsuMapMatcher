@@ -1,6 +1,30 @@
 ﻿@page "/settings"
-<h3>Settings</h3>
+@using OMM.Desktop.Data.Settings
+@inject ISettings Preference
+@inject IJSRuntime JS
+
+<div class="@Bem.Base()">
+    <h3>Settings</h3>
+    <EditForm Model="@Preference.UserSettings" OnValidSubmit="HandleFormSubmit">
+        <ValidationSummary />
+        <label>
+            Prefer Unicode:
+            <InputCheckbox @bind-Value="@Preference.UserSettings.PrefersUnicode" />
+        </label>
+        <label>
+            Shutdown server if all tabs closed:
+            <InputCheckbox @bind-Value="@Preference.UserSettings.ExitOnAllTabsClosed" />
+        </label>
+        <button type="submit">Submit</button>
+    </EditForm>
+</div>
 
 @code {
+    private Bem Bem = new Bem("view-settings");
 
+    private async void HandleFormSubmit()
+    {
+        Preference.Save();
+        await JS.InvokeVoidAsync("alert", "Saved changes");
+    }
 }

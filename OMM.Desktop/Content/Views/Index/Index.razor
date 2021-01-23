@@ -1,12 +1,13 @@
 ﻿@page "/"
 @using OMM.Desktop.Data.OsuDataProvider
 @using OMM.Desktop.Data.OmmApi
+@using OMM.Desktop.Data.Settings
 @inject OsuDataProvider OsuDataProvider
 @inject OmmApiService OmmApi
 @implements IDisposable
 
 <div class="@Bem.Base()">
-    <MapImage SongSelection="@songSelection" MapAvailable="mapAvailable"/>
+    <MapImage SongSelection="@songSelection" MapAvailable="mapAvailable" />
     <div class="@Bem.Element("search-container")">
         <span class="@Bem.Element("search-container-label")">
             Custom Search
@@ -16,13 +17,13 @@
                     Style="fas"
                     RootClass="@Bem.Element("search-button", availableFlag)"
                     OnClick="HandleSearchClick" />
-        <FilterChips FilterClass="@Filter" OnChange="HandleChipChange"/>
+        <FilterChips FilterClass="@Filter" OnChange="HandleChipChange" />
     </div>
     @foreach (var map in this.mapMatches)
     {
         <MapMatchTile MapMatch="map" />
     }
-    <ErrorMessage ErrorMessages="errorMessages"/>
+    <ErrorMessage ErrorMessages="errorMessages" />
 </div>
 
 @code{

@@ -4,9 +4,9 @@
 <div class="@Bem.Base()">
     <Expander OnExpand="Test">
         <Header>
-            <img 
-                 class="@Bem.Element("preview-image", expandedFlag)"
-                 src="" />
+            <img class="@Bem.Element("preview-image", expandedFlag)"
+                 src="@imageSource"
+                 loading="lazy" />
             <div class="@Bem.Element("map-metadata")">
                 <span>@MapMatch?.Artist - @MapMatch?.Title</span>
                 <span>[@MapMatch?.DifficultyName]</span>
@@ -38,6 +38,8 @@
 
     public bool isExpanded { get; set; } = false;
     private string expandedFlag => isExpanded ? "expanded" : null;
+
+    private string imageSource => $"https://assets.ppy.sh/beatmaps/{this.MapMatch.BeatmapsetId}/covers/list.jpg";
 
     private void Test()
     {
