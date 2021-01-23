@@ -37,6 +37,7 @@ namespace OMM.Desktop
                 options.RootDirectory = "/Content";
             });
             services.AddServerSideBlazor();
+            services.AddHostedService<OsuDataProvider>();
             services.AddSingleton<OsuDataProvider>();
             services.AddSingleton<OmmApiService>();
             services.AddSingleton<ISettings, SettingsService>();
@@ -48,7 +49,7 @@ namespace OMM.Desktop
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ISettings settings)
         {
             if (env.IsDevelopment())
             {
@@ -60,11 +61,15 @@ namespace OMM.Desktop
                 app.UseExceptionHandler("/Error");
             }
 
-            app.UseStaticFiles();
+            if (!Directory.Exists(settings.UserSettings.SongFolderPath))
+            {
+                settings.UserSettings.SongFolderPath = @"C:\";
+            }
+
+                app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
-                //TODO change
-                FileProvider = new PhysicalFileProvider("S:\\osu!\\Songs"),
+                FileProvider = new PhysicalFileProvider(settings.UserSettings.SongFolderPath),
                 RequestPath = "/Songs"
             });
 

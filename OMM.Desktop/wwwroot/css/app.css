@@ -295,6 +295,17 @@ body {
   align-items: center;
   width: 100%;
 }
+.view-settings__form {
+  display: flex;
+  flex-direction: column;
+}
+.view-settings__form-row {
+  padding-bottom: 16px;
+}
+.view-settings__info {
+  padding-top: 16px;
+  font-size: 12px;
+}
 .component-error-message {
   position: absolute;
   top: 50%;

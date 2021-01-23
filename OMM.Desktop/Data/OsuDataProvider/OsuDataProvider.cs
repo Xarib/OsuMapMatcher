@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using OMM.Desktop.Data.Settings;
 using OsuMemoryDataProvider;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,15 @@ namespace OMM.Desktop.Data.OsuDataProvider
     public class OsuDataProvider : IHostedService, IDisposable
     {
         private Timer timer;
-        private readonly OsuMemoryReader reader;
-        private const string path = "S:/osu!/Songs";
+        private readonly IOsuMemoryReader reader;
+        private readonly ISettings settings;
 
-        public OsuDataProvider()
+        public OsuDataProvider(ISettings settings)
         {
-            this.reader = new OsuMemoryReader();
+            this.settings = settings;
+
+            if (reader is null)
+                this.reader = OsuMemoryReader.Instance;
         }
 
         public void Dispose()
@@ -31,19 +35,21 @@ namespace OMM.Desktop.Data.OsuDataProvider
         {
             this.timer = new Timer(this.ReadData, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(250));
 
-            //TODO update this
-            if (!Directory.Exists(path))
-            {
-                Console.WriteLine("Song folder not found!");
-            }
-
             return Task.CompletedTask;
         }
 
         private void ReadData(object state)
         {
-            if (this.reader.GetCurrentStatus(out int _) != OsuMemoryStatus.SongSelect || !reader.MapIdHasChanged(out int currentId))
+            if (this.reader.GetCurrentStatus(out int status) != OsuMemoryStatus.SongSelect || !reader.MapIdHasChanged(out int currentId))
                 return;
+
+            var path = settings.UserSettings.SongFolderPath;
+            if (!path.EndsWith("Songs", StringComparison.OrdinalIgnoreCase) || !Directory.Exists(path))
+            {
+                Console.WriteLine("Song folder not found!");
+                this.OnSongSelectionChanged(new List<string> { "Song folder not found!" });
+                return;
+            }
 
             var folderName = this.reader.GetMapFolderName();
             var songPath = path + "/" + folderName;
@@ -81,16 +87,16 @@ namespace OMM.Desktop.Data.OsuDataProvider
             }
         }
 
-        protected virtual void OnSongSelectionChanged(SongSelectionChangedEventArgs e)
+        protected virtual void OnSongSelectionChanged(Either<SongSelectionChangedEventArgs, List<string>> args)
         {
             var eventHandler = SongChanged;
             if (eventHandler != null)
             {
-                eventHandler(this, e);
+                eventHandler(this, args);
             }
         }
 
-        public static event EventHandler<SongSelectionChangedEventArgs> SongChanged;
+        public static event EventHandler<Either<SongSelectionChangedEventArgs, List<string>>> SongChanged;
 
         public Task StopAsync(CancellationToken cancellationToken)
         {

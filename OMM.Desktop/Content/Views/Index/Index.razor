@@ -70,9 +70,16 @@
         this.errorMessages = mapsOrErrors.Right;
     }
 
-    private async void SongChanged(object sender, SongSelectionChangedEventArgs e)
+    private async void SongChanged(object sender, Either<SongSelectionChangedEventArgs, List<string>> args)
     {
-        this.songSelection = e;
+        if (!args.TryGetLeftValue(out var song))
+        {
+            this.errorMessages = args.Right;
+            await InvokeAsync(() => base.StateHasChanged());
+            return;
+        }
+
+        this.songSelection = song;
 
         this.mapAvailable = OmmApiService.AvailableMaps.Contains(this.songSelection.BeatmapId);
 

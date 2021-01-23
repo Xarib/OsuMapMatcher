@@ -25,9 +25,6 @@ namespace OMM.Desktop
                     webBuilder
                     .UseStartup<Startup>()
                     .UseUrls(new[] { "http://localhost:16302" });
-                })
-            .ConfigureServices(services => {
-                services.AddHostedService<OsuDataProvider>();
-            });
+                });
     }
 }

@@ -13,7 +13,7 @@ namespace OMM.Desktop
     {
         private static int oldId;
 
-        public static bool MapIdHasChanged(this OsuMemoryReader omr, out int currentId)
+        public static bool MapIdHasChanged(this IOsuMemoryReader omr, out int currentId)
         {
             if ((currentId = omr.GetMapId()) == oldId)
                 return false;
