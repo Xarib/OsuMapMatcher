@@ -1,11 +1,31 @@
-﻿<div class="@Bem.Base() @RootClass" @onmouseover="HandleHoverEnter" @onmouseout="HandleHoverLeave" @onclick="OnClick">
-    <div class="@Bem.Element("text-container", hoverFlag)">
-        <span>@Text</span>
-    </div>
-    <div class="@Bem.Element("icon-container", hoverFlag)">
-        <i class="@Style @IconName"></i>
-    </div>
-</div>
+﻿@if (!string.IsNullOrWhiteSpace(this.Href))
+{
+    <a href="@Href" target="_blank" class="@Bem.Base() @RootClass" @onmouseover="HandleHoverEnter" @onmouseout="HandleHoverLeave">
+        <label for="1234" >
+            <span class="@Bem.Element("text-container", hoverFlag)">
+                <span>@Text</span>
+            </span>
+            <span class="@Bem.Element("icon-container", hoverFlag)">
+                <i class="@Style @IconName"></i>
+            </span>
+        </label>
+    </a>
+}
+else
+{
+    <label for="1234" class="@Bem.Base() @RootClass" @onmouseover="HandleHoverEnter" @onmouseout="HandleHoverLeave" @onclick="HandleOnClick">
+        <span class="@Bem.Element("text-container", hoverFlag)">
+            <span>@Text</span>
+        </span>
+        <span class="@Bem.Element("icon-container", hoverFlag)">
+            <i class="@Style @IconName"></i>
+        </span>
+        @if (!string.IsNullOrWhiteSpace(this.ButtonType))
+        {
+            <button hidden id="1234" type="@ButtonType"></button>
+        }
+    </label>
+}
 
 
 @code {
@@ -22,6 +42,10 @@
     public string Text { get; set; } = "";
     [Parameter]
     public string RootClass { get; set; } = "";
+    [Parameter]
+    public string ButtonType { get; set; }
+    [Parameter]
+    public string Href { get; set; }
 
     private bool isHovered = false;
 
@@ -30,4 +54,10 @@
     private void HandleHoverEnter() => isHovered = true;
 
     private void HandleHoverLeave() => isHovered = false;
+
+    private void HandleOnClick(MouseEventArgs e)
+    {
+        if (OnClick.HasDelegate)
+            OnClick.InvokeAsync(e);
+    }
 }

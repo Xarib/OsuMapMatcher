@@ -21,7 +21,11 @@
                 <InputText @bind-Value="@Preference.UserSettings.SongFolderPath" />
             </label>
         </div>
-        <button type="submit" >Submit</button>
+        <IconButton Text="Save"
+                    IconName="fa-save"
+                    Style="fas"
+                    RootClass="@Bem.Element("button-map-info")"
+                    ButtonType="submit"/>
         <div class="@Bem.Element("info")">*Requires restart</div>
     </EditForm>
 </div>

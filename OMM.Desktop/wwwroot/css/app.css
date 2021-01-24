@@ -183,6 +183,8 @@ body {
   border-radius: 50px;
   font-size: 12px;
   padding: 0 16px;
+  color: #d4d8d9FF;
+  text-decoration: none;
 }
 .component-icon-button__text-container {
   padding-right: 32px;

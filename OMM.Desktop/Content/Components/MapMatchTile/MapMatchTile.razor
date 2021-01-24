@@ -20,12 +20,12 @@
                         IconName="fa-download"
                         Style="fas"
                         RootClass="@Bem.Element("button-osu-direct")"
-                        OnClick="Test" />
+                        Href="@osuDirect"/>
             <IconButton Text="More Info"
                         IconName="fa-external-link-alt"
                         Style="fas"
                         RootClass="@Bem.Element("button-map-info")"
-                        OnClick="Test" />
+                        Href="@mapURL"/>
         </Footer>
     </Expander>
 </div>
@@ -40,6 +40,10 @@
     private string expandedFlag => isExpanded ? "expanded" : null;
 
     private string imageSource => $"https://assets.ppy.sh/beatmaps/{this.MapMatch.BeatmapsetId}/covers/list.jpg";
+
+    private string osuDirect => $"osu://b/{this.MapMatch.BeatmapId}";
+
+    private string mapURL => $"https://osu.ppy.sh/b/{this.MapMatch.BeatmapId}";
 
     private void Test()
     {
