@@ -12,11 +12,13 @@
         <span class="@Bem.Element("search-container-label")">
             Custom Search
         </span>
-        <IconButton Text="Find matching maps"
-                    IconName="fa-search"
-                    Style="fas"
-                    RootClass="@Bem.Element("search-button", availableFlag)"
-                    OnClick="HandleSearchClick" />
+        <div>
+            <IconButton Text="Find matching maps"
+                        IconName="fa-search"
+                        Style="fas"
+                        RootClass="@Bem.Element("search-button", availableFlag)"
+                        OnClick="HandleSearchClick" />
+        </div>
         <FilterChips FilterClass="@Filter" OnChange="HandleChipChange" />
     </div>
     @foreach (var map in this.mapMatches)

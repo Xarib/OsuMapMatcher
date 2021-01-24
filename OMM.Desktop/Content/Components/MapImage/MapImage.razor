@@ -8,8 +8,8 @@
             <span class="@Bem.Element("text")">Mapper: @SongSelection.MapCreator</span>
         </div>
         <div class="@Bem.Element("text-container")">
-            <span class="@Bem.Element("text")">[@SongSelection.DifficultyName]</span>
             <span class="@Bem.Element("text")">@SongSelection.Title</span>
+            <span class="@Bem.Element("text")">[@SongSelection.DifficultyName]</span>
         </div>
     }
     else
@@ -42,6 +42,14 @@
         };
     }
 
+    protected override void OnParametersSet()
+    {
+        if (!MapAvailable)
+        {
+            SongSelection.PathToBackgroundImage = "";
+        }
+    }
+
     private string emptyFlag => string.IsNullOrWhiteSpace(SongSelection.PathToBackgroundImage) ? "empty" : null;
-    private double strength => string.IsNullOrWhiteSpace(SongSelection.PathToBackgroundImage) ? 0 : 0.3;
+    private double strength => string.IsNullOrWhiteSpace(SongSelection.PathToBackgroundImage) ? 0 : 0.25;
 }

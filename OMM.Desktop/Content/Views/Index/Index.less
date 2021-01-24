@@ -8,6 +8,9 @@
 
     &__search-container {
         position: relative;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
         min-width: 650px;
         width: 60%;
         max-width: 1500px;
@@ -21,7 +24,7 @@
         position: absolute;
         top: 0;
         left: @baseSpacing * 2;
-        color: #272c33;
+        color: @colorGrayLight;
         background-color: @colorGray;
         transform: translateY(-60%);
         padding: @baseSpacing;

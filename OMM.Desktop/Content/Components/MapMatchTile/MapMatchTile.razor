@@ -2,18 +2,38 @@
 @using OMM.Desktop.Content.Components.Expander
 
 <div class="@Bem.Base()">
-    <Expander OnExpand="Test">
+    <Expander OnExpand="HandleExpandChange">
         <Header>
             <img class="@Bem.Element("preview-image", expandedFlag)"
-                 src="@imageSource"
-                 loading="lazy" />
+                 src="@imageSource"/>
             <div class="@Bem.Element("map-metadata")">
                 <span>@MapMatch?.Artist - @MapMatch?.Title</span>
                 <span>[@MapMatch?.DifficultyName]</span>
             </div>
         </Header>
         <Body>
-            Body
+            <div class="@Bem.Element("map-info")">
+                <span>Difference</span>
+                <span>@Math.Round(MapMatch.KDistance, 2)</span>
+                <span>Lenght</span>
+                <span>@TimeSpan.FromMinutes(MapMatch.Length / 10).ToString("m\\:ss")</span>
+                <span>BPM</span>
+                <span>@MapMatch.Bpm</span>
+                <span>Circles</span>
+                <span>@MapMatch.HitcircleCount</span>
+                <span>Sliders</span>
+                <span>@MapMatch.SliderCount</span>
+                <span>Spinners</span>
+                <span>@MapMatch.SpinnerCount</span>
+                <span>CS</span>
+                <span>@Math.Round(MapMatch.CS, 1)</span>
+                <span>HP</span>
+                <span>@Math.Round(MapMatch.HP, 1)</span>
+                <span>OD</span>
+                <span>@Math.Round(MapMatch.OD, 1)</span>
+                <span>AR</span>
+                <span>@Math.Round(MapMatch.AR, 1)</span>
+            </div>
         </Body>
         <Footer>
             <IconButton Text="osu!direct"
@@ -39,13 +59,17 @@
     public bool isExpanded { get; set; } = false;
     private string expandedFlag => isExpanded ? "expanded" : null;
 
-    private string imageSource => $"https://assets.ppy.sh/beatmaps/{this.MapMatch.BeatmapsetId}/covers/list.jpg";
+    private string imageSource => $"https://assets.ppy.sh/beatmaps/{this.MapMatch.BeatmapsetId}/covers/list@2x.jpg";
 
     private string osuDirect => $"osu://b/{this.MapMatch.BeatmapId}";
 
     private string mapURL => $"https://osu.ppy.sh/b/{this.MapMatch.BeatmapId}";
 
-    private void Test()
+    private string mapLenght => TimeSpan.FromMinutes(MapMatch.Length / 10).ToString("m\\:ss");
+
+    private ElementReference testc;
+
+    private void HandleExpandChange()
     {
         isExpanded = !isExpanded;
     }

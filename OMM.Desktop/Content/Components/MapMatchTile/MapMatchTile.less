@@ -3,17 +3,18 @@
     min-width: 650px;
     width: 60%;
     max-width: 1500px;
-    margin-bottom: @baseSpacing * 2;
+    margin-bottom: @baseSpacing * 3;
     border-radius: @borderRadius;
     background-color: #2b2f33;
+    box-shadow: @boxShadow;
 
     &__preview-image {
         border-top-left-radius: @borderRadius;
         border-bottom-left-radius: @borderRadius;
         transition-duration: 1s;
         background-color: @colorGrayLight;
-        height: 108px;
-        width: 172px;
+        height: 116px;
+        width: 184px;
     }
 
     &__preview-image--expanded {
@@ -24,6 +25,17 @@
     &__map-metadata {
         display: flex;
         flex-direction: column;
+        padding-left: @baseSpacing * 2;
+        padding-top: @baseSpacing;
+        font-size: 16px;
+    }
+
+    &__map-info {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        padding: @baseSpacing * 2;
+        padding-left: 48px;
+        padding-bottom: 56px;
     }
 
     &__button-osu-direct {
