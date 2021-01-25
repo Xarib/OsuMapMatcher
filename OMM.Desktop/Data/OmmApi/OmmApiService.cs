@@ -30,8 +30,8 @@ namespace OMM.Desktop.Data.OmmApi
             if (beatmapId is null)
                 errors.Add("No beatmap selected");
 
-            if (count < 1 || count > 100)
-                errors.Add("You can retreive 1 to 100 maps");
+            if (count < 1 || count > 50)
+                errors.Add("You can retreive 1-50 maps");
 
             if (errors.Count != 0)
                 return errors;
@@ -42,7 +42,7 @@ namespace OMM.Desktop.Data.OmmApi
                 {
                     count++;
                     var matches = await client.GetFromJsonAsync<List<MapMatch>>($"api/knn/ranked?id={beatmapId}&count={count}");
-                    matches.RemoveAll(match => match.KDistance == 0);
+                    matches.RemoveAll(match => match.KDistance < 0.001);
                     return matches;
                 }
                 catch (HttpRequestException) // Non success
@@ -74,7 +74,7 @@ namespace OMM.Desktop.Data.OmmApi
                 }
                 catch (HttpRequestException) // Non success
                 {
-                    errors.Add("An error occurred.");
+                    errors.Add("A List of awailable maps could not be loaded");
                 }
                 catch (NotSupportedException) // When content type is not valid
                 {

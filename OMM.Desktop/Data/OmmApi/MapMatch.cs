@@ -27,6 +27,7 @@ namespace OMM.Desktop.Data.OmmApi
         public double Length { get; set; }
         public double Bpm { get; set; }
         public string DifficultyName { get; set; }
+        public double DifficultyRating { get; set; }
     }
 
     public enum RankStatus

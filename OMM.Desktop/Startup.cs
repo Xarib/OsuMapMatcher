@@ -38,6 +38,7 @@ namespace OMM.Desktop
             });
             services.AddServerSideBlazor();
             services.AddHostedService<OsuDataProvider>();
+            services.AddSingleton<IOsuDataService, OsuDataService>();
             services.AddSingleton<OsuDataProvider>();
             services.AddSingleton<OmmApiService>();
             services.AddSingleton<ISettings, SettingsService>();

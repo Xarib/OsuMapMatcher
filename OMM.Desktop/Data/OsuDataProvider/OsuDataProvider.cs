@@ -17,18 +17,13 @@ namespace OMM.Desktop.Data.OsuDataProvider
         private Timer timer;
         private readonly IOsuMemoryReader reader;
         private readonly ISettings settings;
+        private readonly IOsuDataService osuDataService;
 
-        public OsuDataProvider(ISettings settings)
+        public OsuDataProvider(ISettings settings, IOsuDataService osuDataService)
         {
             this.settings = settings;
-
-            if (reader is null)
-                this.reader = OsuMemoryReader.Instance;
-        }
-
-        public void Dispose()
-        {
-            this.timer?.Dispose();
+            this.osuDataService = osuDataService;
+            this.reader = OsuMemoryReader.Instance;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -40,14 +35,14 @@ namespace OMM.Desktop.Data.OsuDataProvider
 
         private void ReadData(object state)
         {
-            if (this.reader.GetCurrentStatus(out int status) != OsuMemoryStatus.SongSelect || !reader.MapIdHasChanged(out int currentId))
+            if (this.reader.GetCurrentStatus(out int _) != OsuMemoryStatus.SongSelect || !reader.MapIdHasChanged(out int currentId))
                 return;
 
             var path = settings.UserSettings.SongFolderPath;
             if (!path.EndsWith("Songs", StringComparison.OrdinalIgnoreCase) || !Directory.Exists(path))
             {
                 Console.WriteLine("Song folder not found!");
-                this.OnSongSelectionChanged(new List<string> { "Song folder not found!" });
+                osuDataService.OnSongSelectionChanged(new List<string> { "Song folder not found!" });
                 return;
             }
 
@@ -68,13 +63,14 @@ namespace OMM.Desktop.Data.OsuDataProvider
 
                 if (!sr.TryReadLineStartingWith("0,0,", out line))
                 {
-                    Console.WriteLine("No image");
+                    Console.WriteLine("Mapper borked the osu file");
                     return;
                 }
                 line = Regex.Replace(line, "^(-?\\d+,){0,2}\"|\"(,-?\\d+){0,2}$", "");
                 Console.WriteLine($"{songPath}/{line}");
 
-                this.OnSongSelectionChanged(new SongSelectionChangedEventArgs {
+                osuDataService.OnSongSelectionChanged(new SongSelectionChangedEventArgs
+                {
                     BeatmapId = currentId,
                     PathToBackgroundImage = "\"Songs/" + folderName + "/" + line + "\"",
                     Artist = keyValuePair.GetValueOrDefault("Artist"),
@@ -87,22 +83,14 @@ namespace OMM.Desktop.Data.OsuDataProvider
             }
         }
 
-        protected virtual void OnSongSelectionChanged(Either<SongSelectionChangedEventArgs, List<string>> args)
+        public void Dispose()
         {
-            var eventHandler = SongChanged;
-            if (eventHandler != null)
-            {
-                eventHandler(this, args);
-            }
+            this.timer?.Dispose();
         }
-
-        public static event EventHandler<Either<SongSelectionChangedEventArgs, List<string>>> SongChanged;
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
             this.timer?.Change(Timeout.Infinite, 0);
-
-            //this.reader.Dispose();
 
             return Task.CompletedTask;
         }

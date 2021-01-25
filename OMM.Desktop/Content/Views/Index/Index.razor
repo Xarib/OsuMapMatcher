@@ -2,8 +2,8 @@
 @using OMM.Desktop.Data.OsuDataProvider
 @using OMM.Desktop.Data.OmmApi
 @using OMM.Desktop.Data.Settings
-@inject OsuDataProvider OsuDataProvider
 @inject OmmApiService OmmApi
+@inject IOsuDataService OsuDataProvider
 @implements IDisposable
 
 <div class="@Bem.Base()">

@@ -37,6 +37,7 @@ def searialize_to_json(distance, tuple):
         'CoverUrl': tuple[17],
         'Bpm' : tuple[18],
         'DifficultyName' : tuple[19],
+        'DifficultyRating' : tuple[20],
     }
 
 #KNN
