@@ -308,6 +308,9 @@ body {
 .view-index__search-button--unavailable {
   background-color: #014238;
 }
+.view-index__spinner {
+  font-size: 48px;
+}
 .view-settings {
   display: flex;
   flex-direction: column;

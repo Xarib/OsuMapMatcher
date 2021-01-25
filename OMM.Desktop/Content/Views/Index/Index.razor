@@ -21,9 +21,18 @@
         </div>
         <FilterChips FilterClass="@Filter" OnChange="HandleChipChange" />
     </div>
-    @foreach (var map in this.mapMatches)
+    @if (!isLoading)
     {
-        <MapMatchTile MapMatch="map" />
+        @foreach (var map in this.mapMatches)
+        {
+            <MapMatchTile MapMatch="map" />
+        }
+    }
+    else
+    {
+        <div class="@Bem.Element("spinner")">
+            <i class="fas fa-circle-notch fa-spin"></i>        
+        </div>
     }
     <ErrorMessage ErrorMessages="errorMessages" />
 </div>
@@ -38,6 +47,8 @@
     private List<string> errorMessages = new List<string>();
 
     private bool mapAvailable = true;
+
+    protected bool isLoading { get; set; } = false;
 
     private string availableFlag => mapAvailable ? null : "unavailable";
 
@@ -61,7 +72,15 @@
         if (!this.mapAvailable)
             return;
 
+        this.mapAvailable = false;
+        this.isLoading = true;
+        await InvokeAsync(() => base.StateHasChanged());
+
         var mapsOrErrors = await OmmApi.GetMapMatches(songSelection?.BeatmapId, Filter.Count);
+
+        this.isLoading = false;
+        this.mapAvailable = true;
+
         if (mapsOrErrors.TryGetLeftValue(out var maps))
         {
             this.mapMatches = maps;
@@ -80,6 +99,8 @@
             await InvokeAsync(() => base.StateHasChanged());
             return;
         }
+
+        this.errorMessages.Clear();
 
         this.songSelection = song;
 
