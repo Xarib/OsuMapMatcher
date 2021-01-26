@@ -7,6 +7,7 @@
     border-radius: @borderRadius;
     background-color: #2b2f33;
     box-shadow: @boxShadow;
+    position: relative;
 
     &__preview-image {
         border-top-left-radius: @borderRadius;
@@ -15,6 +16,15 @@
         background-color: @colorGrayLight;
         height: 116px;
         width: 184px;
+    }
+
+    &__play-button {
+        position: absolute;
+        left: @baseSpacing * 2;
+        bottom: @halfSpacing;
+        font-size: 36px;
+        color: @colorWhite;
+        filter: drop-shadow(0.2rem 0.2rem 0rem #528dff);
     }
 
     &__preview-image--expanded {

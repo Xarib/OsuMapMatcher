@@ -110,6 +110,7 @@ body {
   border-radius: 16px;
   background-color: #2b2f33;
   box-shadow: 4px 3px 8px #0e0e0f;
+  position: relative;
 }
 .component-map-match__preview-image {
   border-top-left-radius: 16px;
@@ -118,6 +119,14 @@ body {
   background-color: #525c6b;
   height: 116px;
   width: 184px;
+}
+.component-map-match__play-button {
+  position: absolute;
+  left: 16px;
+  bottom: 4px;
+  font-size: 36px;
+  color: #d4d8d9FF;
+  filter: drop-shadow(0.2rem 0.2rem 0rem #528dff);
 }
 .component-map-match__preview-image--expanded {
   border-bottom-left-radius: 0px;
@@ -302,8 +311,8 @@ body {
 }
 .view-index__search-button {
   margin: 16px;
-  background-color: #00bca0;
-  border: 4px solid #00907b;
+  background-color: #528dff;
+  border: 4px solid #3970d9;
 }
 .view-index__search-button--unavailable {
   background-color: #014238;

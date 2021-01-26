@@ -5,11 +5,31 @@
     <Expander OnExpand="HandleExpandChange">
         <Header>
             <img class="@Bem.Element("preview-image", expandedFlag)"
-                 src="@imageSource"/>
+                 src="@imageSource" />
             <div class="@Bem.Element("map-metadata")">
                 <span>@MapMatch?.Artist - @MapMatch?.Title</span>
                 <span>[@MapMatch?.DifficultyName]</span>
             </div>
+            <div class="@Bem.Element("play-button")">
+                <i class="fas fa-@playString"
+                   @onclick="HandlePlayTrackClick" />
+            </div>
+            @if (isPlaying)
+            {
+                <audio 
+                       autoplay 
+                       preload="none" 
+                       id="track-@this.MapMatch.GetHashCode()"
+                       onplay="document.getElementById('track-@this.MapMatch.GetHashCode()').volume = 0.1;">
+                    <source src="@trackPreview" type="audio/mpeg">
+                </audio>
+            }
+            else
+            {
+                <audio preload="none" id="track-@this.MapMatch.GetHashCode()">
+                    <source src="@trackPreview" type="audio/mpeg">
+                </audio>
+            }
         </Header>
         <Body>
             <div class="@Bem.Element("map-info")">
@@ -42,12 +62,12 @@
                         IconName="fa-download"
                         Style="fas"
                         RootClass="@Bem.Element("button-osu-direct")"
-                        Href="@osuDirect"/>
+                        Href="@osuDirect" />
             <IconButton Text="More Info"
                         IconName="fa-external-link-alt"
                         Style="fas"
                         RootClass="@Bem.Element("button-map-info")"
-                        Href="@mapURL"/>
+                        Href="@mapURL" />
         </Footer>
     </Expander>
 </div>
@@ -61,18 +81,27 @@
     public bool isExpanded { get; set; } = false;
     private string expandedFlag => isExpanded ? "expanded" : null;
 
+    private bool isPlaying = false;
+
+    private string playString => isPlaying ? "pause" : "play";
+
     private string imageSource => $"https://assets.ppy.sh/beatmaps/{this.MapMatch.BeatmapsetId}/covers/list@2x.jpg";
 
     private string osuDirect => $"osu://b/{this.MapMatch.BeatmapId}";
 
     private string mapURL => $"https://osu.ppy.sh/b/{this.MapMatch.BeatmapId}";
 
-    private string mapLenght => TimeSpan.FromMinutes(MapMatch.Length / 10).ToString("m\\:ss");
+    private string trackPreview => $"https://b.ppy.sh/preview/{this.MapMatch.BeatmapsetId}.mp3";
 
-    private ElementReference testc;
+    private string mapLenght => TimeSpan.FromMinutes(MapMatch.Length / 10).ToString("m\\:ss");
 
     private void HandleExpandChange()
     {
         isExpanded = !isExpanded;
+    }
+
+    public void HandlePlayTrackClick()
+    {
+        isPlaying = !isPlaying;
     }
 }
