@@ -1,14 +1,14 @@
 ﻿@using OMM.Desktop.Data.OsuDataProvider
 
-<div class="@Bem.Base()" style="background-image: linear-gradient( rgba(0, 0, 0, @strength), rgba(0, 0, 0, @strength) ), url(@SongSelection.PathToBackgroundImage);">
+<div class="@Bem.Base()" style="background-image: linear-gradient( rgba(0, 0, 0, @strength), rgba(0, 0, 0, @strength) ), url(@pathToBackgroundImage);">
     @if (MapAvailable)
     {
         <div class="@Bem.Element("text-container")">
-            <span class="@Bem.Element("text")">@SongSelection.Artist</span>
+            <span class="@Bem.Element("text")">@SongSelection?.Artist</span>
             <span class="@Bem.Element("text")">@mapCreator</span>
         </div>
         <div class="@Bem.Element("text-container")">
-            <span class="@Bem.Element("text")">@SongSelection.Title</span>
+            <span class="@Bem.Element("text")">@SongSelection?.Title</span>
             <span class="@Bem.Element("text")">@difficultyName</span>
         </div>
     }
@@ -44,14 +44,17 @@
 
     protected override void OnParametersSet()
     {
-        if (!MapAvailable)
+        if (!MapAvailable && SongSelection is null)
         {
-            SongSelection.PathToBackgroundImage = "";
+            pathToBackgroundImage = "";
+            return;
         }
+        pathToBackgroundImage = SongSelection.PathToBackgroundImage;
     }
 
-    private string mapCreator => string.IsNullOrWhiteSpace(SongSelection.MapCreator) ? "" : $"Mapper: {SongSelection.MapCreator}";
-    private string difficultyName => string.IsNullOrWhiteSpace(SongSelection.MapCreator) ? "" : $"[{SongSelection.DifficultyName}]";
-    private string emptyFlag => string.IsNullOrWhiteSpace(SongSelection.PathToBackgroundImage) ? "empty" : null;
-    private double strength => string.IsNullOrWhiteSpace(SongSelection.PathToBackgroundImage) ? 0 : 0.25;
+    private string pathToBackgroundImage;
+    private string mapCreator => string.IsNullOrWhiteSpace(SongSelection?.MapCreator) ? "" : $"Mapper: {SongSelection.MapCreator}";
+    private string difficultyName => string.IsNullOrWhiteSpace(SongSelection?.MapCreator) ? "" : $"[{SongSelection.DifficultyName}]";
+    private string emptyFlag => string.IsNullOrWhiteSpace(SongSelection?.PathToBackgroundImage) ? "empty" : null;
+    private double strength => string.IsNullOrWhiteSpace(SongSelection?.PathToBackgroundImage) ? 0 : 0.25;
 }

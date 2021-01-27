@@ -6,7 +6,7 @@
     margin-bottom: @baseSpacing * 3;
     border-radius: @borderRadius;
     background-color: #2b2f33;
-    box-shadow: @boxShadow;
+    box-shadow: 6px 4px 0 2px @colorGrayDark;
     position: relative;
 
     &__preview-image {
@@ -21,10 +21,10 @@
     &__play-button {
         position: absolute;
         left: @baseSpacing * 2;
-        bottom: @halfSpacing;
+        top: @baseSpacing * 7;
         font-size: 36px;
         color: @colorWhite;
-        filter: drop-shadow(0.2rem 0.2rem 0rem #528dff);
+        filter: drop-shadow(6px 4px 0 #191a1c);
     }
 
     &__preview-image--expanded {

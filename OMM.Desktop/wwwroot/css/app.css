@@ -109,7 +109,7 @@ body {
   margin-bottom: 24px;
   border-radius: 16px;
   background-color: #2b2f33;
-  box-shadow: 4px 3px 8px #0e0e0f;
+  box-shadow: 6px 4px 0 2px #191a1c;
   position: relative;
 }
 .component-map-match__preview-image {
@@ -123,10 +123,10 @@ body {
 .component-map-match__play-button {
   position: absolute;
   left: 16px;
-  bottom: 4px;
+  top: 56px;
   font-size: 36px;
   color: #d4d8d9FF;
-  filter: drop-shadow(0.2rem 0.2rem 0rem #528dff);
+  filter: drop-shadow(6px 4px 0 #191a1c);
 }
 .component-map-match__preview-image--expanded {
   border-bottom-left-radius: 0px;
@@ -163,7 +163,7 @@ body {
 .component-filter-chips__filter-chip {
   display: inline-flex;
   align-items: center;
-  border: 4px solid #3e4550;
+  border: 2px solid #3e4550;
   background-color: #525c6b;
   border-radius: 40px;
   margin: 4px;
@@ -181,7 +181,8 @@ body {
 }
 .component-filter-chips__button-add-filter {
   display: inline-flex;
-  border: 4px solid #3e4550;
+  align-items: center;
+  border: 2px solid #3e4550;
   background-color: #525c6b;
   border-radius: 40px;
   margin: 4px;
@@ -196,12 +197,19 @@ body {
 .component-filter-chips__chip-icon--remove {
   transform: rotate(45deg);
 }
+.component-filter-chips__chip-selection {
+  height: 24px;
+  width: 100px;
+  margin-left: 20px;
+  border: none;
+  border-radius: 24px;
+}
 .component-icon-button {
   display: inline-flex;
   align-items: center;
   position: relative;
   height: 40px;
-  border-width: 4px;
+  border-width: 2px;
   border-style: solid;
   border-radius: 50px;
   font-size: 12px;
@@ -258,6 +266,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 40px;
   width: 40px;
   height: 40px;
   border-radius: 40px;
@@ -265,7 +274,7 @@ body {
   transition-duration: 0.3s;
 }
 .component-expander__icon-container:hover {
-  background-color: #2b2f33;
+  background-color: #525c6b;
 }
 .component-expander__icon {
   transition-property: all;
@@ -312,10 +321,10 @@ body {
 .view-index__search-button {
   margin: 16px;
   background-color: #528dff;
-  border: 4px solid #3970d9;
+  border-color: #3970d9;
 }
 .view-index__search-button--unavailable {
-  background-color: #014238;
+  background-color: #345599;
 }
 .view-index__spinner {
   font-size: 48px;

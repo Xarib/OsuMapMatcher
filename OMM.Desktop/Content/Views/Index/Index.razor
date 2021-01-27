@@ -40,7 +40,7 @@
 @code{
     private Bem Bem = new Bem("view-index");
 
-    private SongSelectionChangedEventArgs songSelection = null;
+    private SongSelectionChangedEventArgs songSelection;
 
     private List<MapMatch> mapMatches = new List<MapMatch>();
 
@@ -102,14 +102,21 @@
 
         this.errorMessages.Clear();
 
-        this.songSelection = song;
+        this.mapAvailable = OmmApiService.AvailableMaps.Contains(song.BeatmapId);
 
-        this.mapAvailable = OmmApiService.AvailableMaps.Contains(this.songSelection.BeatmapId);
+        if (this.mapAvailable)
+        {
+            this.songSelection = song;
+        }
+        else
+        {
+            this.songSelection = null;
+        }
 
         await InvokeAsync(() => base.StateHasChanged());
     }
 
-    private void HandleChipChange(object o)
+    private async void HandleChipChange(object o)
     {
         this.Filter = o as OmmApiFilterDto;
     }
