@@ -17,27 +17,25 @@ DATABASE = 'S:/OMM.db'
 
 def searialize_to_json(distance, tuple):
     return{
+        'AR': tuple[1],
+        'Artist': tuple[2],
+        'ArtistUnicode': tuple[3],
+        'BeatmapId': tuple[4],
+        'BeatmapSetId': tuple[5],
+        'Bpm': tuple[6] * 2,
+        'BpmMax': tuple[7] * 2,
+        'CS': tuple[8],
+        'DifficultyName': tuple[9],
+        'HP': tuple[10],
         'KDistance' : distance,
-        'BeatmapId': tuple[1],
-        'HP': tuple[2],
-        'CS': tuple[3],
-        'OD': tuple[4],
-        'AR': tuple[5],
-        'HitcircleCount': tuple[6],
-        'SliderCount': tuple[7],
-        'SpinnerCount': tuple[8],
-        'Length': tuple[9],
-        'BeatmapsetId': tuple[10],
-        'Artist': tuple[11],
-        'ArtistUnicode': tuple[12],
-        'Title': tuple[13],
-        'TitleUnicode': tuple[14],
-        'Creator': tuple[15],
-        'RankStatus': tuple[16],
-        'CoverUrl': tuple[17],
-        'Bpm' : tuple[18],
-        'DifficultyName' : tuple[19],
-        'DifficultyRating' : tuple[20],
+        'Length': tuple[11] / 10,
+        'Mapper': tuple[12],
+        'OD': tuple[13],
+        'Title': tuple[14],
+        'TitleUnicode': tuple[15],
+        'TotalHitCircles': tuple[16] * 10,
+        'TotalSliders': tuple[17] * 10,
+        'TotalSpinners' : tuple[18],
     }
 
 #KNN
@@ -64,7 +62,7 @@ def get_info():
 def get_all_map_ids():
     with sqlite3.connect(DATABASE) as connection:
         cursor = connection.cursor()
-        cursor.execute("SELECT BeatmapId FROM Beatmap")
+        cursor.execute("SELECT BeatmapId FROM Beatmaps")
         ids = cursor.fetchall()
 
     return jsonify([e[0] for e in ids])
@@ -109,11 +107,12 @@ def get_similiar_maps():
             LongestStream,
             TotalJumpStreams,
             TotalSpacedStreamPixels,
-            Bpm,BpmMax,
+            Bpm,
+            BpmMax,
             Total90DegreeJumps,
             Total180DegreeJumps 
         FROM 
-            Beatmap 
+            Beatmaps
         WHERE 
             BeatmapId = ?""", (beatmap_id, ))
         selected_map = cursor.fetchone()

@@ -35,18 +35,16 @@
             <div class="@Bem.Element("map-info")">
                 <span>Difference</span>
                 <span>@Math.Round(MapMatch.KDistance, 2)</span>
-                <span>Difficulty</span>
-                <span>@MapMatch.DifficultyRating</span>
                 <span>Lenght</span>
-                <span>@TimeSpan.FromMinutes(MapMatch.Length / 10).ToString("m\\:ss")</span>
+                <span>@TimeSpan.FromMinutes(MapMatch.Length.ToString("m\\:ss")</span>
                 <span>BPM</span>
                 <span>@MapMatch.Bpm</span>
                 <span>Circles</span>
-                <span>@MapMatch.HitcircleCount</span>
+                <span>@MapMatch.TotalHitCircles</span>
                 <span>Sliders</span>
-                <span>@MapMatch.SliderCount</span>
+                <span>@MapMatch.TotalSliders</span>
                 <span>Spinners</span>
-                <span>@MapMatch.SpinnerCount</span>
+                <span>@MapMatch.TotalSpinners</span>
                 <span>CS</span>
                 <span>@Math.Round(MapMatch.CS, 1)</span>
                 <span>HP</span>
@@ -85,13 +83,13 @@
 
     private string playString => isPlaying ? "pause" : "play";
 
-    private string imageSource => $"https://assets.ppy.sh/beatmaps/{this.MapMatch.BeatmapsetId}/covers/list@2x.jpg";
+    private string imageSource => $"https://assets.ppy.sh/beatmaps/{this.MapMatch.BeatmapSetId}/covers/list@2x.jpg";
 
     private string osuDirect => $"osu://b/{this.MapMatch.BeatmapId}";
 
     private string mapURL => $"https://osu.ppy.sh/b/{this.MapMatch.BeatmapId}";
 
-    private string trackPreview => $"https://b.ppy.sh/preview/{this.MapMatch.BeatmapsetId}.mp3";
+    private string trackPreview => $"https://b.ppy.sh/preview/{this.MapMatch.BeatmapSetId}.mp3";
 
     private string mapLenght => TimeSpan.FromMinutes(MapMatch.Length / 10).ToString("m\\:ss");
 

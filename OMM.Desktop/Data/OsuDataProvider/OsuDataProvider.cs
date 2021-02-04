@@ -49,6 +49,13 @@ namespace OMM.Desktop.Data.OsuDataProvider
             var folderName = this.reader.GetMapFolderName();
             var songPath = path + "/" + folderName;
             var fileName = this.reader.GetOsuFileName();
+
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                Console.WriteLine("Song folder not found");
+                return;
+            }
+
             using (StreamReader sr = new StreamReader(songPath + "/" + fileName))
             {
                 var keyValuePair = new Dictionary<string, string>();
