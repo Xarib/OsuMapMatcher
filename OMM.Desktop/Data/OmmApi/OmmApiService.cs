@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -45,8 +46,17 @@ namespace OMM.Desktop.Data.OmmApi
                     matches.RemoveAll(match => match.KDistance < 0.001);
                     return matches;
                 }
-                catch (HttpRequestException) // Non success
+                catch (HttpRequestException e) // Non success
                 {
+                    switch (e.StatusCode)
+                    {
+                        case HttpStatusCode.TooManyRequests:
+                        case HttpStatusCode.ServiceUnavailable:
+                            errors.Add("You can't use this button for stream stamina training");
+                            return errors;
+                        default:
+                            break;
+                    }
                     errors.Add("An error occurred.");
                 }
                 catch (NotSupportedException) // When content type is not valid
@@ -72,7 +82,7 @@ namespace OMM.Desktop.Data.OmmApi
                 {
                     AvailableMaps = JsonConvert.DeserializeObject<HashSet<int>>(client.GetStringAsync("api/knn/maps").Result);
                 }
-                catch (HttpRequestException) // Non success
+                catch (HttpRequestException e) // Non success
                 {
                     errors.Add("A List of awailable maps could not be loaded");
                 }

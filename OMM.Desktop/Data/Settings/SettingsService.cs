@@ -26,6 +26,7 @@ namespace OMM.Desktop.Data.Settings
                 {
                     ExitOnAllTabsClosed = false,
                     PrefersUnicode = false,
+                    Volume = 25,
                     SongFolderPath = @"%localappdata%\osu!\Songs",
                 };
                 this.Save();

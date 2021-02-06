@@ -1,19 +1,45 @@
 from flask import Flask, jsonify, request
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 from werkzeug import exceptions
+import logging
 import sqlite3
 import numpy as np
 from sklearn import neighbors
 
 app = Flask(__name__)
-limiter = Limiter(
-    app,
-    key_func=get_remote_address,
-    default_limits=["60 per minute"]
-)
+
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 DATABASE = 'S:/OMM.db'
+
+#KNN
+with sqlite3.connect(DATABASE) as conn:
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM KNN_FIT_VIEW')
+    all_maps = cur.fetchall()
+    X = np.array(all_maps)
+    classes = [1] * len(all_maps)
+
+y = np.array(classes)
+
+clf = neighbors.KNeighborsClassifier(n_neighbors=1)
+clf.fit(X, y);
+
+#Api endpoints
+@app.route('/')
+@app.route('/info', methods=['GET'])
+def get_info():
+    return jsonify({'info' : 'No info'})
+
+@app.route('/api/knn/maps', methods=['GET'])
+def get_all_map_ids():
+    with sqlite3.connect(DATABASE) as connection:
+        cursor = connection.cursor()
+        cursor.execute("SELECT BeatmapId FROM Beatmaps")
+        ids = cursor.fetchall()
+
+    return jsonify([e[0] for e in ids])
+
 
 def searialize_to_json(distance, tuple):
     return{
@@ -38,38 +64,7 @@ def searialize_to_json(distance, tuple):
         'TotalSpinners' : tuple[18],
     }
 
-#KNN
-conn = sqlite3.connect(DATABASE)
-cur = conn.cursor()
-cur.execute('SELECT * FROM KNN_FIT_VIEW')
-all_maps = cur.fetchall()
-X = np.array(all_maps)
-classes = [1] * len(all_maps)
-conn.close()
-y = np.array(classes)
-
-clf = neighbors.KNeighborsClassifier(n_neighbors=1)
-clf.fit(X, y);
-
-#Api endpoints
-@app.route('/', methods=['GET'])
-@app.route('/info', methods=['GET'])
-def get_info():
-    return jsonify({'info' : 'No info'})
-
-@app.route('/api/knn/maps', methods=['GET'])
-@limiter.limit("30/minute")
-def get_all_map_ids():
-    with sqlite3.connect(DATABASE) as connection:
-        cursor = connection.cursor()
-        cursor.execute("SELECT BeatmapId FROM Beatmaps")
-        ids = cursor.fetchall()
-
-    return jsonify([e[0] for e in ids])
-
-
 @app.route('/api/knn/ranked', methods=['GET'])
-@limiter.limit("30/minute")
 def get_similiar_maps():
     beatmap_id = request.args.get('id', default=None, type=int)
     match_count = request.args.get('count', default=10, type=int)
@@ -80,8 +75,8 @@ def get_similiar_maps():
     if (match_count < 1):
         return "Count cant be smaller than 1", 400
 
-    if (match_count > 101):
-        return "You cannot request more than 100 maps", 400
+    if (match_count > 51):
+        return "You cannot request more than 50 maps", 400
 
     with sqlite3.connect(DATABASE) as connection:
         cursor = connection.cursor()
@@ -138,4 +133,4 @@ def get_similiar_maps():
     return jsonify([searialize_to_json(distances[i], e) for i, e in enumerate(map_datas)])
 
 if __name__ == '__main__':
-    app.run('localhost', 55555)
+    app.run('0.0.0.0', 55555)
