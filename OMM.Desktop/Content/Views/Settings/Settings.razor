@@ -17,6 +17,10 @@
                 <InputCheckbox @bind-Value="@Preference.UserSettings.ExitOnAllTabsClosed" />
             </label>
             <label class="@Bem.Element("form-row")">
+                Volume
+                <InputNumber @bind-Value="@Preference.UserSettings.Volume" />
+            </label>
+            <label class="@Bem.Element("form-row")">
                 Song path closed*
                 <InputText @bind-Value="@Preference.UserSettings.SongFolderPath" />
             </label>
@@ -25,8 +29,9 @@
                     IconName="fa-save"
                     Style="fas"
                     RootClass="@Bem.Element("button-map-info")"
-                    ButtonType="submit"/>
+                    ButtonType="submit" />
         <div class="@Bem.Element("info")">*Requires restart</div>
+        <DataAnnotationsValidator />
     </EditForm>
 </div>
 
