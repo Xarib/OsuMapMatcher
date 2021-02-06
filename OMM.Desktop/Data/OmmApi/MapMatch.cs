@@ -11,9 +11,9 @@ namespace OMM.Desktop.Data.OmmApi
         public string Artist { get; set; }
         public string ArtistUnicode { get; set; }
         public int BeatmapId { get; set; }
-        public int BeatmapSetId { get; set; }
-        public int Bpm { get; set; }
-        public int BpmMax { get; set; }
+        public int? BeatmapSetId { get; set; }
+        public double Bpm { get; set; }
+        public double BpmMax { get; set; }
         public double CS { get; set; }
         public string DifficultyName { get; set; }
         public double HP { get; set; }

@@ -2,6 +2,7 @@
 @using OMM.Desktop.Data.OsuDataProvider
 @using OMM.Desktop.Data.OmmApi
 @using OMM.Desktop.Data.Settings
+@using OMM.Desktop.Content.Components.MapImage
 @inject OmmApiService OmmApi
 @inject IOsuDataService OsuDataProvider
 @implements IDisposable
@@ -31,7 +32,7 @@
     else
     {
         <div class="@Bem.Element("spinner")">
-            <i class="fas fa-circle-notch fa-spin"></i>        
+            <i class="fas fa-circle-notch fa-spin"></i>
         </div>
     }
     <ErrorMessage ErrorMessages="errorMessages" />
@@ -89,6 +90,7 @@
         }
 
         this.errorMessages = mapsOrErrors.Right;
+        await InvokeAsync(() => base.StateHasChanged());
     }
 
     private async void SongChanged(object sender, Either<SongSelectionChangedEventArgs, List<string>> args)
@@ -116,7 +118,7 @@
         await InvokeAsync(() => base.StateHasChanged());
     }
 
-    private async void HandleChipChange(object o)
+    private void HandleChipChange(object o)
     {
         this.Filter = o as OmmApiFilterDto;
     }

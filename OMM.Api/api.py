@@ -22,8 +22,8 @@ def searialize_to_json(distance, tuple):
         'ArtistUnicode': tuple[3],
         'BeatmapId': tuple[4],
         'BeatmapSetId': tuple[5],
-        'Bpm': tuple[6] * 2,
-        'BpmMax': tuple[7] * 2,
+        'Bpm': tuple[6],
+        'BpmMax': tuple[7],
         'CS': tuple[8],
         'DifficultyName': tuple[9],
         'HP': tuple[10],
@@ -33,8 +33,8 @@ def searialize_to_json(distance, tuple):
         'OD': tuple[13],
         'Title': tuple[14],
         'TitleUnicode': tuple[15],
-        'TotalHitCircles': tuple[16] * 10,
-        'TotalSliders': tuple[17] * 10,
+        'TotalHitCircles': tuple[16],
+        'TotalSliders': tuple[17],
         'TotalSpinners' : tuple[18],
     }
 
@@ -92,8 +92,8 @@ def get_similiar_maps():
             OD,
             AR,
             BeatDivisor,
-            TotalHitCircles,
-            TotalSliders,
+            CalcTotalHitCircles,
+            CalcTotalSliders,
             TotalSpinners,
             Length,
             TotalPixelsTraveled,
@@ -107,8 +107,8 @@ def get_similiar_maps():
             LongestStream,
             TotalJumpStreams,
             TotalSpacedStreamPixels,
-            Bpm,
-            BpmMax,
+            CalcBpm,
+            CalcBpmMax,
             Total90DegreeJumps,
             Total180DegreeJumps 
         FROM 

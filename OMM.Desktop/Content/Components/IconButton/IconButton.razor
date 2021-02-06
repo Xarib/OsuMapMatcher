@@ -1,6 +1,6 @@
 ﻿@if (!string.IsNullOrWhiteSpace(this.Href))
 {
-    <a href="@Href" target="_blank" class="@Bem.Base() @RootClass" @onmouseover="HandleHoverEnter" @onmouseout="HandleHoverLeave">
+    <a href="@Href" class="@Bem.Base() @RootClass" @onmouseover="HandleHoverEnter" @onmouseout="HandleHoverLeave">
         <label for="1234" >
             <span class="@Bem.Element("text-container", hoverFlag)">
                 <span>@Text</span>

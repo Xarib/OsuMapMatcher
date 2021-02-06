@@ -53,9 +53,9 @@ namespace OMM.Desktop.Data.OmmApi
                 {
                     errors.Add("The content type is not supported.");
                 }
-                catch (Exception) // Invalid JSON
+                catch (Exception e) // Invalid JSON
                 {
-                    errors.Add("Oopsie woopsie Xarib made an oopsie. (Invalid JSON)");
+                    errors.Add("Oopsie woopsie Xarib made an oopsie.");
                 }
             }
 
@@ -82,7 +82,7 @@ namespace OMM.Desktop.Data.OmmApi
                 }
                 catch (Exception) // Invalid JSON
                 {
-                    errors.Add("Oopsie woopsie Xarib made an oopsie. (Invalid JSON)");
+                    errors.Add("Oopsie woopsie Xarib made an oopsie.");
                 }
             }
         }

@@ -26,6 +26,10 @@ body {
   right: 0.75rem;
   top: 0.5rem;
 }
+#components-reconnect-modal {
+  display: none !important;
+  pointer-events: none;
+}
 .view-layout-content-with-sidebar {
   position: relative;
   display: flex;
@@ -116,6 +120,17 @@ body {
   border-top-left-radius: 16px;
   border-bottom-left-radius: 16px;
   transition-duration: 1s;
+  background-color: #525c6b;
+  height: 116px;
+  width: 184px;
+}
+.component-map-match__no-image {
+  display: flex;
+  align-items: center;
+  font-size: 36px;
+  justify-content: center;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
   background-color: #525c6b;
   height: 116px;
   width: 184px;

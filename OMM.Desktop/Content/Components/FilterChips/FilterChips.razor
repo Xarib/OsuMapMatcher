@@ -66,6 +66,7 @@
     {
         this.AvailableFilters = this.FilterClass.GetType()
             .GetProperties()
+            .Where(prop => !AppliedFilters.ContainsKey(prop.Name))
             .Select(prop => prop.Name)
             .OrderBy(prop => prop)
             .ToList();

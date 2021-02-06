@@ -1,34 +1,47 @@
 ﻿@using OMM.Desktop.Data.OmmApi
-@using OMM.Desktop.Content.Components.Expander
+@using OMM.Desktop.Data.Settings
+@inject ISettings Settings
 
 <div class="@Bem.Base()">
     <Expander OnExpand="HandleExpandChange">
         <Header>
-            <img class="@Bem.Element("preview-image", expandedFlag)"
-                 src="@imageSource" />
-            <div class="@Bem.Element("map-metadata")">
-                <span>@MapMatch?.Artist - @MapMatch?.Title</span>
-                <span>[@MapMatch?.DifficultyName]</span>
-            </div>
-            <div class="@Bem.Element("play-button")">
-                <i class="fas fa-@playString"
-                   @onclick="HandlePlayTrackClick" />
-            </div>
-            @if (isPlaying)
+            @if (MapMatch.BeatmapSetId is not null)
             {
-                <audio 
-                       autoplay 
-                       preload="none" 
-                       id="track-@this.MapMatch.GetHashCode()"
-                       onplay="document.getElementById('track-@this.MapMatch.GetHashCode()').volume = 0.1;">
-                    <source src="@trackPreview" type="audio/mpeg">
-                </audio>
+                <img class="@Bem.Element("preview-image", expandedFlag)"
+                     src="@imageSource" />
             }
             else
             {
-                <audio preload="none" id="track-@this.MapMatch.GetHashCode()">
-                    <source src="@trackPreview" type="audio/mpeg">
-                </audio>
+                <div class="@Bem.Element("no-image", expandedFlag)" title="Preview not available">
+                    <i class="fas fa-file-excel"></i>
+                </div>
+            }
+
+            <div class="@Bem.Element("map-metadata")">
+                <span>@GetArtistAndTitle()</span>
+                <span>[@MapMatch?.DifficultyName]</span>
+            </div>
+            @if (MapMatch.BeatmapSetId is not null)
+            {
+                <div class="@Bem.Element("play-button")">
+                    <i class="fas fa-@playString"
+                       @onclick="HandlePlayTrackClick" />
+                </div>
+                @if (isPlaying)
+                {
+                    <audio autoplay
+                           preload="none"
+                           id="track-@this.MapMatch.GetHashCode()"
+                           onplay="document.getElementById('track-@this.MapMatch.GetHashCode()').volume = 0.1;">
+                        <source src="@trackPreview" type="audio/mpeg">
+                    </audio>
+                }
+                else
+                {
+                    <audio preload="none" id="track-@this.MapMatch.GetHashCode()">
+                        <source src="@trackPreview" type="audio/mpeg">
+                    </audio>
+                }
             }
         </Header>
         <Body>
@@ -36,7 +49,7 @@
                 <span>Difference</span>
                 <span>@Math.Round(MapMatch.KDistance, 2)</span>
                 <span>Lenght</span>
-                <span>@TimeSpan.FromMinutes(MapMatch.Length.ToString("m\\:ss")</span>
+                <span>@TimeSpan.FromMinutes(MapMatch.Length).ToString("m\\:ss")</span>
                 <span>BPM</span>
                 <span>@MapMatch.Bpm</span>
                 <span>Circles</span>
@@ -77,6 +90,7 @@
     public MapMatch MapMatch { get; set; } = null;
 
     public bool isExpanded { get; set; } = false;
+
     private string expandedFlag => isExpanded ? "expanded" : null;
 
     private bool isPlaying = false;
@@ -91,8 +105,6 @@
 
     private string trackPreview => $"https://b.ppy.sh/preview/{this.MapMatch.BeatmapSetId}.mp3";
 
-    private string mapLenght => TimeSpan.FromMinutes(MapMatch.Length / 10).ToString("m\\:ss");
-
     private void HandleExpandChange()
     {
         isExpanded = !isExpanded;
@@ -101,5 +113,18 @@
     public void HandlePlayTrackClick()
     {
         isPlaying = !isPlaying;
+    }
+
+    private string GetArtistAndTitle()
+    {
+        if (Settings.UserSettings.PrefersUnicode)
+        {
+            var artistAndTitle = MapMatch.ArtistUnicode ?? MapMatch.Artist;
+            artistAndTitle += " - ";
+            artistAndTitle += MapMatch.TitleUnicode ?? MapMatch.Title;
+            return artistAndTitle;
+        }
+
+        return MapMatch.Artist + " - " + MapMatch.Title;
     }
 }
