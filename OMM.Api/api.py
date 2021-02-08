@@ -1,16 +1,16 @@
-from flask import Flask, jsonify, request
-from werkzeug import exceptions
-import logging
+import uvicorn
+import aiosqlite
+import pathlib
+from fastapi import FastAPI
+from fastapi.responses import PlainTextResponse
 import sqlite3
 import numpy as np
 from sklearn import neighbors
 
-app = Flask(__name__)
+app = FastAPI()
+h = hpy()
 
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
-
-DATABASE = 'S:/OMM.db'
+DATABASE = str(pathlib.Path(__file__).parent.absolute()) + '\OMM.db'
 
 #KNN
 with sqlite3.connect(DATABASE) as conn:
@@ -19,27 +19,37 @@ with sqlite3.connect(DATABASE) as conn:
     all_maps = cur.fetchall()
     X = np.array(all_maps)
     classes = [1] * len(all_maps)
+    cur.close()
 
 y = np.array(classes)
 
 clf = neighbors.KNeighborsClassifier(n_neighbors=1)
-clf.fit(X, y);
+clf.fit(X, y)
 
 #Api endpoints
-@app.route('/')
-@app.route('/info', methods=['GET'])
-def get_info():
-    return jsonify({'info' : 'No info'})
+@app.get('/')
+@app.get('/info')
+async def get_info():
+    return {'info' : 'No info'}
 
-@app.route('/api/knn/maps', methods=['GET'])
-def get_all_map_ids():
-    with sqlite3.connect(DATABASE) as connection:
-        cursor = connection.cursor()
-        cursor.execute("SELECT BeatmapId FROM Beatmaps")
-        ids = cursor.fetchall()
+#@app.get('/api/knn/maps')
+#def get_all_map_ids():
+#    with sqlite3.connect(DATABASE) as connection:
+#        cursor = connection.cursor()
+#        cursor.execute("SELECT BeatmapId FROM Beatmaps WHERE BeatmapId = 1")
+#        ids = cursor.fetchall();
+#        cursor.close()
+        
+#    return ([e[0] for e in ids])
 
-    return jsonify([e[0] for e in ids])
-
+@app.get('/api/knn/maps')
+async def get_all_map_ids():
+    async with aiosqlite.connect(DATABASE) as connection:
+        cursor = await connection.execute("SELECT BeatmapId FROM Beatmaps")
+        items = await cursor.fetchall()
+        await cursor.close()
+        print(h.heap())
+        return ([e[0] for e in items])
 
 def searialize_to_json(distance, tuple):
     return{
@@ -64,23 +74,19 @@ def searialize_to_json(distance, tuple):
         'TotalSpinners' : tuple[18],
     }
 
-@app.route('/api/knn/ranked', methods=['GET'])
-def get_similiar_maps():
-    beatmap_id = request.args.get('id', default=None, type=int)
-    match_count = request.args.get('count', default=10, type=int)
+@app.get('/api/knn/ranked')
+async def get_similiar_maps(id: int, count: int=10):
+    if (id < 1):
+        return PlainTextResponse("BeatmapId is not valid", status_code=400)
 
-    if (beatmap_id < 1):
-        return "BeatmapId is not valid", 400
+    if (count < 1):
+        return PlainTextResponse("Count cant be smaller than 1", status_code=400)
 
-    if (match_count < 1):
-        return "Count cant be smaller than 1", 400
+    if (count > 51):
+        return PlainTextResponse("Requested to many maps", status_code=400)
 
-    if (match_count > 51):
-        return "You cannot request more than 50 maps", 400
-
-    with sqlite3.connect(DATABASE) as connection:
-        cursor = connection.cursor()
-        cursor.execute("""
+    async with aiosqlite.connect(DATABASE) as connection:
+        cursor = await connection.execute("""
         SELECT 
             HP,
             CS,
@@ -109,13 +115,14 @@ def get_similiar_maps():
         FROM 
             Beatmaps
         WHERE 
-            BeatmapId = ?""", (beatmap_id, ))
-        selected_map = cursor.fetchone()
+            BeatmapId = ?""", (id,))
+        selected_map = await cursor.fetchone()
+        await cursor.close();
 
     if (selected_map is None):
-        return "Beatmap not found", 404
+        return PlainTextResponse("Beatmap not found", status_code=404)
 
-    kneighbors = clf.kneighbors([selected_map], match_count)
+    kneighbors = clf.kneighbors([selected_map], count)
     neighbor_ids = kneighbors[1][0] + 1
     distances = kneighbors[0][0]
     
@@ -125,12 +132,13 @@ def get_similiar_maps():
         query = query + ' WHEN ' + str(val) + ' THEN ' + str(i)
     query = query + " END"
 
-    with sqlite3.connect(DATABASE) as connection:
-        cursor = connection.cursor()
-        cursor.execute(query)
-        map_datas = cursor.fetchall()
+    async with aiosqlite.connect(DATABASE) as connection:
+        cursor = await connection.execute(query)
+        map_datas = await cursor.fetchall()
+        await cursor.close();
     
-    return jsonify([searialize_to_json(distances[i], e) for i, e in enumerate(map_datas)])
+    print(h.heap())
+    return ([searialize_to_json(distances[i], e) for i, e in enumerate(map_datas)])
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', 55555)
+    uvicorn.run("api:app", port=55555)

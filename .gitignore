@@ -341,3 +341,6 @@ healthchecksdb
 
 # User settings file
 settings.xml
+
+# Database
+OMM.db
