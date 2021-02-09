@@ -42,7 +42,7 @@ namespace OMM.Desktop.Data.OmmApi
                 try
                 {
                     count++;
-                    var matches = await client.GetFromJsonAsync<List<MapMatch>>($"api/knn/ranked?id={beatmapId}&count={count}");
+                    var matches = await client.GetFromJsonAsync<List<MapMatch>>($"api/knn/search?id={beatmapId}&count={count}");
                     matches.RemoveAll(match => match.KDistance < 0.001);
                     return matches;
                 }

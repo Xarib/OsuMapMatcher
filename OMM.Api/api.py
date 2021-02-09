@@ -1,14 +1,15 @@
 import uvicorn
 import aiosqlite
+import sqlite3
 import pathlib
 from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
-import sqlite3
 import numpy as np
 from sklearn import neighbors
 
 app = FastAPI()
-h = hpy()
+
+all_map_ids = None
 
 DATABASE = str(pathlib.Path(__file__).parent.absolute()) + '\OMM.db'
 
@@ -21,35 +22,33 @@ with sqlite3.connect(DATABASE) as conn:
     classes = [1] * len(all_maps)
     cur.close()
 
+    cur = conn.cursor()
+    cur.execute("select beatmapid from beatmaps")
+    all_map_ids = str(([e[0] for e in cur.fetchall()])).replace(" ", "")
+    cur.close()
+
 y = np.array(classes)
 
 clf = neighbors.KNeighborsClassifier(n_neighbors=1)
 clf.fit(X, y)
 
+#clear ram
+all_maps = None
+X = None
+y = None
+classes = None
+conn = None
+cur = None
+
 #Api endpoints
 @app.get('/')
 @app.get('/info')
-async def get_info():
+def get_info():
     return {'info' : 'No info'}
 
-#@app.get('/api/knn/maps')
-#def get_all_map_ids():
-#    with sqlite3.connect(DATABASE) as connection:
-#        cursor = connection.cursor()
-#        cursor.execute("SELECT BeatmapId FROM Beatmaps WHERE BeatmapId = 1")
-#        ids = cursor.fetchall();
-#        cursor.close()
-        
-#    return ([e[0] for e in ids])
-
 @app.get('/api/knn/maps')
-async def get_all_map_ids():
-    async with aiosqlite.connect(DATABASE) as connection:
-        cursor = await connection.execute("SELECT BeatmapId FROM Beatmaps")
-        items = await cursor.fetchall()
-        await cursor.close()
-        print(h.heap())
-        return ([e[0] for e in items])
+def get_all_map_ids():
+    return PlainTextResponse(all_map_ids, status_code=200)
 
 def searialize_to_json(distance, tuple):
     return{
@@ -74,7 +73,7 @@ def searialize_to_json(distance, tuple):
         'TotalSpinners' : tuple[18],
     }
 
-@app.get('/api/knn/ranked')
+@app.get('/api/knn/search')
 async def get_similiar_maps(id: int, count: int=10):
     if (id < 1):
         return PlainTextResponse("BeatmapId is not valid", status_code=400)
@@ -117,7 +116,7 @@ async def get_similiar_maps(id: int, count: int=10):
         WHERE 
             BeatmapId = ?""", (id,))
         selected_map = await cursor.fetchone()
-        await cursor.close();
+        await cursor.close()
 
     if (selected_map is None):
         return PlainTextResponse("Beatmap not found", status_code=404)
@@ -135,9 +134,8 @@ async def get_similiar_maps(id: int, count: int=10):
     async with aiosqlite.connect(DATABASE) as connection:
         cursor = await connection.execute(query)
         map_datas = await cursor.fetchall()
-        await cursor.close();
-    
-    print(h.heap())
+        await cursor.close()
+
     return ([searialize_to_json(distances[i], e) for i, e in enumerate(map_datas)])
 
 if __name__ == '__main__':
