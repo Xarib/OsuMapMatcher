@@ -28,8 +28,6 @@ namespace OMM.Desktop
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages(options =>
@@ -46,10 +44,10 @@ namespace OMM.Desktop
             services.AddHttpClient("OmmApi", client =>
             {
                 client.BaseAddress = new Uri(Configuration.GetSection("Omm").GetValue<string>("Url"));
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("app");
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ISettings settings)
         {
             if (env.IsDevelopment())
@@ -67,7 +65,7 @@ namespace OMM.Desktop
                 settings.UserSettings.SongFolderPath = @"C:\";
             }
 
-                app.UseStaticFiles();
+            app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(settings.UserSettings.SongFolderPath),

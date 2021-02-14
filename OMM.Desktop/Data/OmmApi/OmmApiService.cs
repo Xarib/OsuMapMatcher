@@ -52,12 +52,12 @@ namespace OMM.Desktop.Data.OmmApi
                     {
                         case HttpStatusCode.TooManyRequests:
                         case HttpStatusCode.ServiceUnavailable:
-                            errors.Add("You can't use this button for stream stamina training");
+                            errors.Add("You can't spam this button");
                             return errors;
                         default:
+                            errors.Add("An error occurred.");
                             break;
                     }
-                    errors.Add("An error occurred.");
                 }
                 catch (NotSupportedException) // When content type is not valid
                 {
@@ -84,7 +84,18 @@ namespace OMM.Desktop.Data.OmmApi
                 }
                 catch (HttpRequestException e) // Non success
                 {
-                    errors.Add("A List of awailable maps could not be loaded");
+                    switch (e.StatusCode)
+                    {
+                        case HttpStatusCode.TooManyRequests:
+                            errors.Add("You have mad too many requests");
+                            break;
+                        case HttpStatusCode.Forbidden:
+                            errors.Add("Config error. Whoops");
+                            break;
+                        default:
+                            errors.Add("An error occurred.");
+                            break;
+                    }
                 }
                 catch (NotSupportedException) // When content type is not valid
                 {

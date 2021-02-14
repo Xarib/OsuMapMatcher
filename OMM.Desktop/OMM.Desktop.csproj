@@ -13,6 +13,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="wwwroot\css\app.css" />
 	  <_ContentIncludedByDefault Remove="wwwroot\css\app.min.css" />
 	</ItemGroup>
 
