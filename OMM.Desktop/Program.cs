@@ -15,6 +15,10 @@ namespace OMM.Desktop
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("####################################################################");
+            Console.WriteLine("# Welcome!                                                         #");
+            Console.WriteLine("# You can access the website with this url: http://localhost:16302 #");
+            Console.WriteLine("####################################################################");
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -22,8 +26,7 @@ namespace OMM.Desktop
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder
-                    .UseStartup<Startup>()
+                    webBuilder.UseStartup<Startup>()
                     .UseUrls(new[] { "http://localhost:16302" });
                 });
     }

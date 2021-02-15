@@ -19,7 +19,9 @@
     private Bem Bem = new Bem("component-error-message");
 
     [Parameter]
-    public IEnumerable<string> ErrorMessages { get; set; } = Enumerable.Empty<string>();
+    public List<string> ErrorMessages { get; set; } = new List<string>();
+    [Parameter]
+    public EventCallback OnClose { get; set; }
 
     private bool showOverlay = false;
 
@@ -33,6 +35,7 @@
     private void HandleCloseClick()
     {
         this.showOverlay = false;
-        this.ErrorMessages = Enumerable.Empty<string>();
+        this.ErrorMessages.Clear();
+        this.OnClose.InvokeAsync();
     }
 }

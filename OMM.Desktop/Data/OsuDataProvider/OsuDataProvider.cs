@@ -42,7 +42,7 @@ namespace OMM.Desktop.Data.OsuDataProvider
             if (!path.EndsWith("Songs", StringComparison.OrdinalIgnoreCase) || !Directory.Exists(path))
             {
                 Console.WriteLine("Song folder not found!");
-                osuDataService.OnSongSelectionChanged(new List<string> { "Song folder not found!" });
+                osuDataService.OnSongSelectionChanged(new List<string> { "Song folder not found! Go to settings and set the correct path." });
                 return;
             }
 

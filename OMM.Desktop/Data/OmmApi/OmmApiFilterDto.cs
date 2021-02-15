@@ -7,6 +7,6 @@ namespace OMM.Desktop.Data.OmmApi
 {
     public class OmmApiFilterDto
     {
-        public int Count { get; set; } = 10;
+        public int Amount { get; set; } = 10;
     }
 }
