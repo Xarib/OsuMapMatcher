@@ -35,8 +35,11 @@ namespace OMM.Desktop.Data.OsuDataProvider
 
         private void ReadData(object state)
         {
-            if (this.reader.GetCurrentStatus(out int _) != OsuMemoryStatus.SongSelect || !reader.MapIdHasChanged(out int currentId))
+            int currentId;
+            if (this.reader.GetCurrentStatus(out int _) != OsuMemoryStatus.SongSelect || (currentId = this.reader.GetMapId()) == osuDataService.OldId)
                 return;
+
+            osuDataService.OldId = currentId;
 
             var path = settings.UserSettings.SongFolderPath;
             if (!path.EndsWith("Songs", StringComparison.OrdinalIgnoreCase) || !Directory.Exists(path))

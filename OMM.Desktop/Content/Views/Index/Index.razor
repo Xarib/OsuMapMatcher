@@ -59,9 +59,13 @@
         Amount = 10,
     };
 
-    protected override void OnInitialized()
+    protected override void OnAfterRender(bool firstRender)
     {
+        if (!firstRender)
+            return;
+
         OsuDataProvider.SongChanged += this.SongChanged;
+        OsuDataProvider.OldId = -1;
     }
 
     public void Dispose()
@@ -94,11 +98,11 @@
         await InvokeAsync(() => base.StateHasChanged());
     }
 
-    private async void SongChanged(object sender, Either<SongSelectionChangedEventArgs, List<string>> args)
+    private async void SongChanged(object sender, Either<SongSelectionChangedEventArgs, List<string>> argsOrErrors)
     {
-        if (!args.TryGetLeftValue(out var song))
+        if (!argsOrErrors.TryGetLeftValue(out var song))
         {
-            this.errorMessages = args.Right;
+            this.errorMessages = argsOrErrors.Right;
             await InvokeAsync(() => base.StateHasChanged());
             return;
         }

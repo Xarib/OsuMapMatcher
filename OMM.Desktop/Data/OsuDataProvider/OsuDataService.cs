@@ -9,11 +9,14 @@ namespace OMM.Desktop.Data.OsuDataProvider
     {
         public event EventHandler<Either<SongSelectionChangedEventArgs, List<string>>> SongChanged;
         public void OnSongSelectionChanged(Either<SongSelectionChangedEventArgs, List<string>> args);
+        public int OldId { get; set; }
     }
 
     public class OsuDataService : IOsuDataService
     {
         public event EventHandler<Either<SongSelectionChangedEventArgs, List<string>>> SongChanged;
+
+        public int OldId { get; set; } = 0;
 
         public void OnSongSelectionChanged(Either<SongSelectionChangedEventArgs, List<string>> args)
         {

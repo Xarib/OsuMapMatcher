@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Server.Circuits;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,12 +9,8 @@ using OMM.Desktop.Data;
 using OMM.Desktop.Data.OmmApi;
 using OMM.Desktop.Data.OsuDataProvider;
 using OMM.Desktop.Data.Settings;
-using OsuMemoryDataProvider;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OMM.Desktop
 {

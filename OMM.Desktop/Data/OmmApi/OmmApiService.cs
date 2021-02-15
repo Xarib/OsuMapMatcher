@@ -43,7 +43,22 @@ namespace OMM.Desktop.Data.OmmApi
                 {
                     count++;
                     var matches = await client.GetFromJsonAsync<List<MapMatch>>($"api/knn/search?id={beatmapId}&count={count}");
+
                     matches.RemoveAll(match => match.KDistance < 0.001);
+
+                    foreach (var map in matches)
+                    {
+                        map.KDistance = @Math.Round(map.KDistance, 2);
+                        map.CS = @Math.Round(map.CS, 1);
+                        map.HP = @Math.Round(map.HP, 1);
+                        map.OD = @Math.Round(map.OD, 1);
+                        map.AR = @Math.Round(map.AR, 1);
+                        map.ImageLink = $"https://assets.ppy.sh/beatmaps/{map.BeatmapSetId}/covers/list@2x.jpg";
+                        map.OsuDirectLink = $"osu://b/{map.BeatmapId}";
+                        map.MapLink = $"https://osu.ppy.sh/b/{map.BeatmapId}";
+                        map.TrackPreview = $"https://b.ppy.sh/preview/{map.BeatmapSetId}.mp3";
+                    }
+
                     return matches;
                 }
                 catch (HttpRequestException e) // Non success

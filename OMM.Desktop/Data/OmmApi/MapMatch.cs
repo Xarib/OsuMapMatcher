@@ -26,5 +26,10 @@ namespace OMM.Desktop.Data.OmmApi
         public int TotalHitCircles { get; set; }
         public int TotalSliders { get; set; }
         public int TotalSpinners { get; set; }
+
+        public string ImageLink { get; set; }
+        public string OsuDirectLink { get; set; }
+        public string MapLink { get; set; }
+        public string TrackPreview { get; set; }
     }
 }
