@@ -24,7 +24,15 @@
     </div>
     @if (!isLoading)
     {
-        @foreach (var map in this.mapMatches)
+        <div class="@Bem.Element("page-numbers")">
+            @foreach (var num in this.Pages()) //for loops behave wierd. Probably reference stuff
+            {
+                <div class="@Bem.Element("page-button", num == this.CurrentPage ? "selected" : null)" @onclick="(e => HandlePageChange(num))">
+                    @num
+                </div>
+            }
+        </div>
+        @foreach (var map in this.mapMatches.Skip(this.CurrentPage * 10 - 10).Take(10))
         {
             <MapMatchTile MapMatch="map" />
         }
@@ -50,9 +58,11 @@
 
     private bool mapAvailable = true;
 
-    protected bool isLoading { get; set; } = false;
-
     private string availableFlag => mapAvailable ? null : "unavailable";
+
+    private bool isLoading { get; set; } = false;
+
+    private int CurrentPage = 1;
 
     private OmmApiFilterDto Filter = new OmmApiFilterDto
     {
@@ -80,7 +90,7 @@
 
         this.mapAvailable = false;
         this.isLoading = true;
-        await InvokeAsync(() => base.StateHasChanged());
+        this.CurrentPage = 1;
 
         var mapsOrErrors = await OmmApi.GetMapMatches(songSelection?.BeatmapId, Filter.Amount);
 
@@ -126,9 +136,21 @@
         this.Filter = o as OmmApiFilterDto;
     }
 
-    private async void HandleOnCloseClick()
+    private void HandlePageChange(int pageNumber)
+    {
+        this.CurrentPage = pageNumber;
+    }
+
+    private void HandleOnCloseClick()
     {
         this.errorMessages.Clear();
-        await InvokeAsync(() => base.StateHasChanged());
+    }
+
+    private IEnumerable<int> Pages()
+    {
+        for (int i = 1; i < Math.Ceiling((decimal)this.mapMatches.Count / 10) + 1; i++)
+        {
+            yield return i;
+        }
     }
 }

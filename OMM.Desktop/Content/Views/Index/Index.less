@@ -31,7 +31,7 @@
     }
 
     &__search-button {
-        margin: @baseSpacing * 2;
+        margin: @baseSpacing;
         background-color: #528dff;
         border-color: #3970d9;
     }
@@ -42,5 +42,32 @@
 
     &__spinner {
         font-size: 48px;
+    }
+
+    &__page-numbers {
+        display: flex;
+    }
+
+    &__page-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        width: 40px;
+        border-radius: 40px;
+        border: 2px solid #3e4550;
+        background-color: @colorGrayLight;
+        background-color: #2b2f33;
+        margin: @baseSpacing * 2;
+        transition-duration: @transitionDuration;
+        transition-timing-function: ease-in-out;
+    }
+
+    &__page-button--selected {
+        background-color: @colorGrayLight;
+    }
+
+    &__page-button:hover {
+        background-color: @colorGrayLight;
     }
 }

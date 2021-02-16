@@ -334,7 +334,7 @@ body {
   padding: 8px;
 }
 .view-index__search-button {
-  margin: 16px;
+  margin: 8px;
   background-color: #528dff;
   border-color: #3970d9;
 }
@@ -343,6 +343,29 @@ body {
 }
 .view-index__spinner {
   font-size: 48px;
+}
+.view-index__page-numbers {
+  display: flex;
+}
+.view-index__page-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  border: 2px solid #3e4550;
+  background-color: #525c6b;
+  background-color: #2b2f33;
+  margin: 16px;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+.view-index__page-button--selected {
+  background-color: #525c6b;
+}
+.view-index__page-button:hover {
+  background-color: #525c6b;
 }
 .view-settings {
   display: flex;
