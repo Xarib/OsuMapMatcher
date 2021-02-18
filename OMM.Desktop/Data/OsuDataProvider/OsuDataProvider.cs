@@ -59,38 +59,53 @@ namespace OMM.Desktop.Data.OsuDataProvider
                 return;
             }
 
-            using (StreamReader sr = new StreamReader(songPath + "/" + fileName))
+            try
             {
-                var keyValuePair = new Dictionary<string, string>();
-                if (sr.TryReadLineStartingWith("[Metadata]", out var line))
+                using (StreamReader sr = new StreamReader(songPath + "/" + fileName))
                 {
-                    while (!string.IsNullOrWhiteSpace(line = sr.ReadLine()))
+                    var keyValuePair = new Dictionary<string, string>();
+                    if (sr.TryReadLineStartingWith("[Metadata]", out var line))
                     {
-                        var pair = line.Split(':');
-                        keyValuePair.Add(pair[0], pair[1]);
+                        while (!string.IsNullOrWhiteSpace(line = sr.ReadLine()))
+                        {
+                            var pair = line.Split(':');
+                            keyValuePair.Add(pair[0], pair[1]);
+                        }
                     }
-                }
 
-                if (!sr.TryReadLineStartingWith("0,0,", out line))
-                {
-                    Console.WriteLine("Mapper borked the osu file");
-                    return;
-                }
-                line = Regex.Replace(line, "^(-?\\d+,){0,2}\"|\"(,-?\\d+){0,2}$", "");
-                Console.WriteLine($"{songPath}/{line}");
+                    if (!sr.TryReadLineStartingWith("0,0,", out line))
+                    {
+                        Console.WriteLine("Mapper borked the osu file");
+                        return;
+                    }
+                    line = Regex.Replace(line, "^(-?\\d+,){0,2}\"|\"(,-?\\d+){0,2}$", "");
+                    Console.WriteLine($"{songPath}/{line}");
 
-                osuDataService.OnSongSelectionChanged(new SongSelectionChangedEventArgs
-                {
-                    BeatmapId = currentId,
-                    PathToBackgroundImage = "\"Songs/" + folderName + "/" + line + "\"",
-                    Artist = keyValuePair.GetValueOrDefault("Artist"),
-                    ArtistUnicode = keyValuePair.GetValueOrDefault("ArtistUnicode"),
-                    DifficultyName = keyValuePair.GetValueOrDefault("Version"),
-                    MapCreator = keyValuePair.GetValueOrDefault("Creator"),
-                    Title = keyValuePair.GetValueOrDefault("Title"),
-                    TitleUnicode = keyValuePair.GetValueOrDefault("TitleUnicode"),
-                });
+                    osuDataService.OnSongSelectionChanged(new SongSelectionChangedEventArgs
+                    {
+                        BeatmapId = currentId,
+                        PathToBackgroundImage = "\"Songs/" + folderName + "/" + line + "\"",
+                        Artist = keyValuePair.GetValueOrDefault("Artist"),
+                        ArtistUnicode = keyValuePair.GetValueOrDefault("ArtistUnicode"),
+                        DifficultyName = keyValuePair.GetValueOrDefault("Version"),
+                        MapCreator = keyValuePair.GetValueOrDefault("Creator"),
+                        Title = keyValuePair.GetValueOrDefault("Title"),
+                        TitleUnicode = keyValuePair.GetValueOrDefault("TitleUnicode"),
+                    });
+                }
             }
+            //Happens when you start osu an the app at the same time
+            catch (FileNotFoundException)
+            {
+                //retry
+                return;
+            }
+            catch (DirectoryNotFoundException)
+            {
+                //retry
+                return;
+            }
+
         }
 
         public void Dispose()
