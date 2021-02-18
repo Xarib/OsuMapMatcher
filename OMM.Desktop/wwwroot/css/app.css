@@ -321,7 +321,7 @@ body {
   max-width: 1500px;
   border: 2px solid #272c33;
   border-radius: 16px;
-  margin-top: 32px;
+  padding: 4px;
   margin-bottom: 48px;
 }
 .view-index__search-container-label {
@@ -334,7 +334,7 @@ body {
   padding: 8px;
 }
 .view-index__search-button {
-  margin: 8px;
+  margin: 24px;
   background-color: #528dff;
   border-color: #3970d9;
 }
@@ -383,6 +383,10 @@ body {
 .view-settings__info {
   padding-top: 16px;
   font-size: 12px;
+}
+.view-settings__me {
+  text-align: center;
+  padding-top: 200px;
 }
 .component-error-message {
   position: absolute;

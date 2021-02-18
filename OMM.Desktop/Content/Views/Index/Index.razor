@@ -9,17 +9,17 @@
 
 <div class="@Bem.Base()">
     <MapImage SongSelection="@songSelection" MapAvailable="mapAvailable" />
+    <div>
+        <IconButton Text="Find matching maps"
+                    IconName="fa-search"
+                    Style="fas"
+                    RootClass="@Bem.Element("search-button", availableFlag)"
+                    OnClick="HandleSearchClick" />
+    </div>
     <div class="@Bem.Element("search-container")">
         <span class="@Bem.Element("search-container-label")">
             Custom Search
         </span>
-        <div>
-            <IconButton Text="Find matching maps"
-                        IconName="fa-search"
-                        Style="fas"
-                        RootClass="@Bem.Element("search-button", availableFlag)"
-                        OnClick="HandleSearchClick" />
-        </div>
         <FilterChips FilterClass="@Filter" OnChange="HandleChipChange" />
     </div>
     @if (!isLoading)
@@ -27,6 +27,9 @@
         <div class="@Bem.Element("page-numbers")">
             @foreach (var num in this.Pages()) //for loops behave wierd. Probably reference stuff
             {
+                if (this.Pages().Count() == 1)
+                    break;
+
                 <div class="@Bem.Element("page-button", num == this.CurrentPage ? "selected" : null)" @onclick="(e => HandlePageChange(num))">
                     @num
                 </div>

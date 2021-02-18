@@ -11,7 +11,7 @@ app = FastAPI()
 
 all_map_ids = None
 
-DATABASE = str(pathlib.Path(__file__).parent.absolute()) + '\OMM.db'
+DATABASE = 'OMM.db'
 
 #KNN
 with sqlite3.connect(DATABASE) as conn:
@@ -32,7 +32,7 @@ y = np.array(classes)
 clf = neighbors.KNeighborsClassifier(n_neighbors=1)
 clf.fit(X, y)
 
-#clear ram
+#free ram
 all_maps = None
 X = None
 y = None
@@ -71,6 +71,8 @@ def searialize_to_json(distance, tuple):
         'TotalHitCircles': tuple[16],
         'TotalSliders': tuple[17],
         'TotalSpinners' : tuple[18],
+        'MapLink' : 'https://osu.ppy.sh/b/' + str(tuple[4]),
+        'OsuDirectLink' : 'osu://b/' + str(tuple[4]),
     }
 
 @app.get('/api/knn/search')

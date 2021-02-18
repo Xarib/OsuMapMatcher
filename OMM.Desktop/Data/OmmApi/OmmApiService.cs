@@ -54,8 +54,8 @@ namespace OMM.Desktop.Data.OmmApi
                         map.OD = @Math.Round(map.OD, 1);
                         map.AR = @Math.Round(map.AR, 1);
                         map.ImageLink = $"https://assets.ppy.sh/beatmaps/{map.BeatmapSetId}/covers/list@2x.jpg";
-                        map.OsuDirectLink = $"osu://b/{map.BeatmapId}";
-                        map.MapLink = $"https://osu.ppy.sh/b/{map.BeatmapId}";
+                        //map.OsuDirectLink = $"osu://b/{map.BeatmapId}";
+                        //map.MapLink = $"https://osu.ppy.sh/b/{map.BeatmapId}";
                         map.TrackPreview = $"https://b.ppy.sh/preview/{map.BeatmapSetId}.mp3";
                     }
 
@@ -66,7 +66,6 @@ namespace OMM.Desktop.Data.OmmApi
                     switch (e.StatusCode)
                     {
                         case HttpStatusCode.TooManyRequests:
-                        case HttpStatusCode.ServiceUnavailable:
                             errors.Add("You can't spam this button");
                             return errors;
                         default:

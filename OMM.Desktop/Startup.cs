@@ -39,7 +39,7 @@ namespace OMM.Desktop
             services.AddHttpClient("OmmApi", client =>
             {
                 client.BaseAddress = new Uri(Configuration.GetSection("Omm").GetValue<string>("Url"));
-                client.Init();
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("app");
             });
         }
 

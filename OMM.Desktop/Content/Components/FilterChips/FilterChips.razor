@@ -82,7 +82,7 @@
 
     private void HandleInput(ChangeEventArgs e, string filterName)
     {
-        if (!int.TryParse(e.Value as string, out int value))//TODO change this to
+        if (!int.TryParse(e.Value as string, out int value))//TODO parse value by reflection
         {
             ValidationErrors.TryAdd(filterName, $"'{filterName}' is not a number");
             return;
@@ -98,6 +98,8 @@
         this.NewFilter = false;
         this.AppliedFilters.Remove(filterName);
         this.AvailableFilters.Add(filterName);
+
+        this.Type.GetProperty(filterName).SetValue(FilterClass, 10); //TODO reset properly and not via hack
 
         this.OnChange.InvokeAsync(this.FilterClass);
     }
