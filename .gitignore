@@ -343,4 +343,4 @@ healthchecksdb
 settings.xml
 
 # Database
-OMM.db
+OMM.db*

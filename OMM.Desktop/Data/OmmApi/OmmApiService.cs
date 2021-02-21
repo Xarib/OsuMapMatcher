@@ -32,7 +32,7 @@ namespace OMM.Desktop.Data.OmmApi
                 errors.Add("No beatmap selected");
 
             if (count < 1 || count > 50)
-                errors.Add("You can retreive 1-50 maps");
+                errors.Add("You can only get 1-50 maps");
 
             if (errors.Count != 0)
                 return errors;
@@ -54,8 +54,6 @@ namespace OMM.Desktop.Data.OmmApi
                         map.OD = @Math.Round(map.OD, 1);
                         map.AR = @Math.Round(map.AR, 1);
                         map.ImageLink = $"https://assets.ppy.sh/beatmaps/{map.BeatmapSetId}/covers/list@2x.jpg";
-                        //map.OsuDirectLink = $"osu://b/{map.BeatmapId}";
-                        //map.MapLink = $"https://osu.ppy.sh/b/{map.BeatmapId}";
                         map.TrackPreview = $"https://b.ppy.sh/preview/{map.BeatmapSetId}.mp3";
                     }
 
@@ -67,6 +65,9 @@ namespace OMM.Desktop.Data.OmmApi
                     {
                         case HttpStatusCode.TooManyRequests:
                             errors.Add("You can't spam this button");
+                            return errors;
+                        case HttpStatusCode.BadGateway:
+                            errors.Add("Stuff is being done on the server. Try again later.");
                             return errors;
                         default:
                             errors.Add("An error occurred.");
@@ -105,6 +106,9 @@ namespace OMM.Desktop.Data.OmmApi
                             break;
                         case HttpStatusCode.Forbidden:
                             errors.Add("Config error. Whoops");
+                            break;
+                        case HttpStatusCode.BadGateway:
+                            errors.Add("Stuff is being done on the server. Try again later.");
                             break;
                         default:
                             errors.Add("An error occurred.");

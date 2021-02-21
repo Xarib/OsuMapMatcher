@@ -388,6 +388,9 @@ body {
   text-align: center;
   padding-top: 200px;
 }
+.view-settings__osu-profile {
+  color: #528dff;
+}
 .component-error-message {
   position: absolute;
   top: 50%;
