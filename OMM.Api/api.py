@@ -83,7 +83,7 @@ async def get_similiar_maps(id: int, count: int=10):
     if (count < 1):
         return PlainTextResponse("Count cant be smaller than 1", status_code=400)
 
-    if (count > 51):
+    if (count > 50):
         return PlainTextResponse("Requested to many maps", status_code=400)
 
     async with aiosqlite.connect(DATABASE) as connection:
@@ -123,9 +123,11 @@ async def get_similiar_maps(id: int, count: int=10):
     if (selected_map is None):
         return PlainTextResponse("Beatmap not found", status_code=404)
 
+    count = count + 1
     kneighbors = clf.kneighbors([selected_map], count)
     neighbor_ids = kneighbors[1][0] + 1
     distances = kneighbors[0][0]
+    distances = distances[1:]
     
     query = np.array2string(neighbor_ids, separator=' OR Id=')
     query = 'SELECT * FROM BEATMAP_MATCH_VIEW WHERE Id=' + query.strip('[]') + ' ORDER BY CASE Id'
@@ -136,6 +138,7 @@ async def get_similiar_maps(id: int, count: int=10):
     async with aiosqlite.connect(DATABASE) as connection:
         cursor = await connection.execute(query)
         map_datas = await cursor.fetchall()
+        map_datas = map_datas[1:]
         await cursor.close()
 
     return ([searialize_to_json(distances[i], e) for i, e in enumerate(map_datas)])

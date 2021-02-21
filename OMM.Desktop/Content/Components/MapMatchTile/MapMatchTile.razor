@@ -110,9 +110,28 @@
     {
         if (Settings.UserSettings.PrefersUnicode)
         {
-            var artistAndTitle = MapMatch.ArtistUnicode ?? MapMatch.Artist;
+            string artistAndTitle;
+
+            if (string.IsNullOrWhiteSpace(MapMatch.ArtistUnicode))
+            {
+                artistAndTitle = MapMatch.Artist;
+            }
+            else
+            {
+                artistAndTitle = MapMatch.ArtistUnicode;
+            }
+
             artistAndTitle += " - ";
-            artistAndTitle += MapMatch.TitleUnicode ?? MapMatch.Title;
+
+            if (string.IsNullOrWhiteSpace(MapMatch.TitleUnicode))
+            {
+                artistAndTitle += MapMatch.Title;
+            }
+            else
+            {
+                artistAndTitle += MapMatch.TitleUnicode;
+            }
+
             return artistAndTitle;
         }
 
