@@ -13,7 +13,7 @@ namespace OMM.Desktop
             this.baseName = baseName;
         }
 
-        public string Base(string flag = null)
+        public string Block(string flag = null)
         {
             if (flag is null)
                 return baseName;

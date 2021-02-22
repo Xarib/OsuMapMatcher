@@ -2,7 +2,7 @@
 @using OMM.Desktop.Data.Settings
 @inject ISettings Settings
 
-<div class="@Bem.Base()" style="background-image: linear-gradient( rgba(0, 0, 0, @strength), rgba(0, 0, 0, @strength) ), url(@pathToBackgroundImage);">
+<div class="@Bem.Block()" style="background-image: linear-gradient( rgba(0, 0, 0, @strength), rgba(0, 0, 0, @strength) ), url(@pathToBackgroundImage);">
     @if (MapAvailable)
     {
         <div class="@Bem.Element("text-container")">

@@ -1,6 +1,6 @@
 ﻿@if (!string.IsNullOrWhiteSpace(this.Href))
 {
-    <a href="@Href" class="@Bem.Base() @RootClass" @onmouseover="HandleHoverEnter" @onmouseout="HandleHoverLeave">
+    <a href="@Href" class="@Bem.Block() @RootClass" @onmouseover="HandleHoverEnter" @onmouseout="HandleHoverLeave">
         <label for="1234" >
             <span class="@Bem.Element("text-container", hoverFlag)">
                 <span>@Text</span>
@@ -13,7 +13,7 @@
 }
 else
 {
-    <label for="1234" class="@Bem.Base() @RootClass" @onmouseover="HandleHoverEnter" @onmouseout="HandleHoverLeave" @onclick="HandleOnClick">
+    <label for="1234" class="@Bem.Block() @RootClass" @onmouseover="HandleHoverEnter" @onmouseout="HandleHoverLeave" @onclick="HandleOnClick">
         <span class="@Bem.Element("text-container", hoverFlag)">
             <span>@Text</span>
         </span>

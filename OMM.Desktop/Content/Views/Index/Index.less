@@ -14,7 +14,7 @@
         min-width: 650px;
         width: 60%;
         max-width: 1500px;
-        border: 2px solid #272c33;
+        border: 2px solid @colorGrayMediumLight;
         border-radius: @borderRadius;
         padding: @halfSpacing;
         margin-bottom: @baseSpacing * 6;
@@ -25,15 +25,15 @@
         top: 0;
         left: @baseSpacing * 2;
         color: @colorGrayLight;
-        background-color: @colorGray;
+        background-color: @colorGrayBackground;
         transform: translateY(-60%);
         padding: @baseSpacing;
     }
 
     &__search-button {
         margin: @baseSpacing * 3;
-        background-color: #528dff;
-        border-color: #3970d9;
+        background-color: @colorPrimary;
+        border-color: @colorPrimaryDark;
     }
 
     &__search-button--unavailable {
@@ -55,9 +55,9 @@
         height: 40px;
         width: 40px;
         border-radius: 40px;
-        border: 2px solid #3e4550;
+        border: 2px solid @colorGrayMedium;
         background-color: @colorGrayLight;
-        background-color: #2b2f33;
+        background-color: @colorGrayMediumLight;
         margin: @baseSpacing * 2;
         transition-duration: @transitionDuration;
         transition-timing-function: ease-in-out;

@@ -3,7 +3,7 @@
 @inject ISettings Preference
 @inject IJSRuntime JS
 
-<div class="@Bem.Base()">
+<div class="@Bem.Block()">
     <h3>Settings</h3>
     <EditForm Model="@Preference.UserSettings" OnValidSubmit="HandleFormSubmit">
         <div class="@Bem.Element("form")">
