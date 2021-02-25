@@ -1,9 +1,10 @@
 # OsuMapMatcher
 A API/Programm that finds similarly mapped maps in a easy manner.
-{image goes here}
+
+![](https://raw.githubusercontent.com/Xarib/OsuMapMatcher/main/OMM.Desktop/Images/Gui.PNG)
 
 ## First time user?
-You can find guides here: {Insert link to wiki here once github allows me to create one.}
+You can find the installation guide here: https://github.com/Xarib/OsuMapMatcher/wiki/Installation-guide
 
 ## Known limitations
 - It only works with osu!std.
@@ -11,15 +12,15 @@ You can find guides here: {Insert link to wiki here once github allows me to cre
 - It currently struggles with techmaps or any other slider heavy maps.
 - Some maps are just to exotic for the API.
 - Old maps don't have a preview because the underling .osu file is missing necessary data.
+- osu!lazer is not supported
 
 ## Roadmap / Planned features
-- Improve parser in the slider department to get better results when searching for techmaps.
-- Cleanup the .osu file parser and make it public.
-- Make all osu!std maps selectable
-- Ask peppy for unranked maps
-
-- Add search history
-- Redo the design of the program
+- [ ] Improve parser in the slider department to get better results when searching for techmaps.
+- [ ] Cleanup the .osu file parser and make it public.
+- [ ] Make all osu!std maps selectable
+- [ ] Ask peppy for unranked maps
+- [ ] Add search history
+- [ ] Redesign the programm
 
 ## API usage
 Find similar maps: `https://omm.xarib.ch/api/knn/search?id={beatmapId}&count={count}`
