@@ -11,7 +11,7 @@ You can find the installation guide here: https://github.com/Xarib/OsuMapMatcher
 - When searching, you cany only select maps that are also on the server. There is no local calculation.
 - It currently struggles with techmaps or any other slider heavy maps.
 - Some maps are just to exotic for the API.
-- Old maps don't have a preview because the underling .osu file is missing necessary data.
+- Old maps don't have a preview because the underlying .osu file is missing necessary data.
 - osu!lazer is not supported
 
 ## Roadmap / Planned features
