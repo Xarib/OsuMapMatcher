@@ -7,6 +7,7 @@ A API/Programm that finds similarly mapped maps in a easy manner.
 You can find the installation guide here: https://github.com/Xarib/OsuMapMatcher/wiki/Installation-guide
 
 ## Known limitations
+- Only Chrome, Firefox and the new Edge browser are supported.
 - It only works with osu!std.
 - When searching, you cany only select maps that are also on the server. There is no local calculation.
 - It currently struggles with techmaps or any other slider heavy maps.
