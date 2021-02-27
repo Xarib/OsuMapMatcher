@@ -35,7 +35,9 @@ Example: https://omm.xarib.ch/api/knn/search?id=129891&count=5
 
 List of available maps: `https://omm.xarib.ch/api/knn/maps`
 
-**Overusage will be met with a temporary ban.** It warns you when you are going to fast.
+Current rate-limit: 3r/s with a burst capacity of 5. See https://www.nginx.com/blog/rate-limiting-nginx/ on how NGINX handles rate-limiting.
+
+**Overusage will be met with a temporary ban.** It warns you with a 429 status code when you go over the limit.
 
 ## Special thanks to
 - [Peppy](https://github.com/peppy) for showing me where to mass download .osu **text** files
