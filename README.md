@@ -16,7 +16,7 @@ You can find the installation guide here: https://github.com/Xarib/OsuMapMatcher
 - osu!lazer is not supported
 
 ## Roadmap / Planned features
-- [ ] Improve parser in the slider department to get better results when searching for techmaps.
+- [x] Improve parser in the slider department to get better results when searching for techmaps.
 - [ ] Cleanup the .osu file parser and make it public.
 - [ ] Make all osu!std maps selectable
 - [ ] Ask peppy for unranked maps
