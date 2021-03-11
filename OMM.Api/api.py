@@ -112,7 +112,11 @@ async def get_similiar_maps(id: int, count: int=10):
             CalcBpm,
             CalcBpmMax,
             Total90DegreeJumps,
-            Total180DegreeJumps 
+            Total180DegreeJumps,
+            TotalSliderLength,
+            TotalSliderDegrees,
+            TotalSliderAngles,
+            AvgFastestSliderSpeed
         FROM 
             Beatmaps
         WHERE 
