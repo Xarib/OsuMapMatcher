@@ -7,6 +7,7 @@ A API/Programm that finds similarly mapped maps in a easy manner.
 You can find the installation guide here: https://github.com/Xarib/OsuMapMatcher/wiki/Installation-guide
 
 ## Known limitations
+- Only Chrome, Firefox and the new Edge browser are supported.
 - It only works with osu!std.
 - When searching, you cany only select maps that are also on the server. There is no local calculation.
 - It currently struggles with techmaps or any other slider heavy maps.
@@ -34,7 +35,9 @@ Example: https://omm.xarib.ch/api/knn/search?id=129891&count=5
 
 List of available maps: `https://omm.xarib.ch/api/knn/maps`
 
-**Overusage will be met with a temporary ban.** It warns you when you are going to fast.
+Current rate-limit: 3r/s with a burst capacity of 5. See https://www.nginx.com/blog/rate-limiting-nginx/ on how NGINX handles rate-limiting.
+
+**Overusage will be met with a temporary ban.** It warns you with a 429 status code when you go over the limit.
 
 ## Special thanks to
 - [Peppy](https://github.com/peppy) for showing me where to mass download .osu **text** files
