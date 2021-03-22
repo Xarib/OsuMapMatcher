@@ -9,12 +9,16 @@
         <div class="@Bem.Element("form")">
             <ValidationSummary />
             <label class="@Bem.Element("form-row")">
-                Prefer Unicode
+                Prefer original Language
                 <InputCheckbox @bind-Value="@Preference.UserSettings.PrefersUnicode" />
             </label>
             <label class="@Bem.Element("form-row")">
                 Shutdown server if all tabs are closed
                 <InputCheckbox @bind-Value="@Preference.UserSettings.ExitOnAllTabsClosed" />
+            </label>
+            <label class="@Bem.Element("form-row")">
+                Hide map results coming from the same BeatmapSet
+                <InputCheckbox @bind-Value="@Preference.UserSettings.HideResultWithSameBeatmapId" />
             </label>
             <label class="@Bem.Element("form-row")">
                 Volume

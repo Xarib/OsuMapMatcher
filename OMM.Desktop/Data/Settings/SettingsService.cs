@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
+using Microsoft.Win32;
 
 namespace OMM.Desktop.Data.Settings
 {
@@ -22,12 +23,38 @@ namespace OMM.Desktop.Data.Settings
 
             if (!File.Exists("settings.xml"))
             {
+                var installationPath = "";
+                var registry_key = @"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall";
+                try
+                {
+
+                    using (var key = Registry.LocalMachine.OpenSubKey(registry_key))
+                    {
+                        foreach (string subkey_name in key.GetSubKeyNames())
+                        {
+                            using (var subkey = key.OpenSubKey(subkey_name))
+                            {
+                                if (subkey.GetValue("DisplayName") is null || subkey.GetValue("DisplayName").ToString() != "osu!")
+                                    continue;
+
+                                installationPath = subkey.GetValue("DisplayIcon").ToString().Replace("osu!.exe", @"Songs");
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Error: The osu! installation was not found.\nYou have to set your osu! songs folder path manually.\nYou can find a guide here https://github.com/Xarib/OsuMapMatcher/wiki/First-usage");
+                    installationPath = @"C:\";
+                }
+
                 this.UserSettings = new UserSettings
                 {
                     ExitOnAllTabsClosed = false,
                     PrefersUnicode = false,
                     Volume = 25,
-                    SongFolderPath = @"%localappdata%\osu!\Songs",
+                    SongFolderPath = installationPath,
+                    HideResultWithSameBeatmapId = false,
                 };
                 this.Save();
             }

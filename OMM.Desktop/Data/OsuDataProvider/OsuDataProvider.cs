@@ -84,6 +84,7 @@ namespace OMM.Desktop.Data.OsuDataProvider
                     osuDataService.OnSongSelectionChanged(new SongSelectionChangedEventArgs
                     {
                         BeatmapId = currentId,
+                        BeatmapSetId = (int)this.reader.GetMapSetId(),
                         PathToBackgroundImage = "\"Songs/" + folderName + "/" + line + "\"",
                         Artist = keyValuePair.GetValueOrDefault("Artist"),
                         ArtistUnicode = keyValuePair.GetValueOrDefault("ArtistUnicode"),

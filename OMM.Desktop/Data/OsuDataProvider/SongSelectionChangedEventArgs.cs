@@ -10,6 +10,7 @@ namespace OMM.Desktop.Data.OsuDataProvider
     public class SongSelectionChangedEventArgs : EventArgs
     {
         public int BeatmapId { get; set; }
+        public int BeatmapSetId { get; set; }
         public string Title { get; set; }
         public string TitleUnicode { get; set; }
         public string Artist { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using OMM.Desktop.Data.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,20 +16,22 @@ namespace OMM.Desktop.Data.OmmApi
         private readonly IHttpClientFactory _httpClientFactory;
 
         public static HashSet<int> AvailableMaps { get; set; } = new HashSet<int>();
+        private ISettings settings;
 
-        public OmmApiService(IHttpClientFactory factory)
+        public OmmApiService(IHttpClientFactory factory, ISettings settings)
         {
             _httpClientFactory = factory;
+            this.settings = settings;
 
             if (AvailableMaps.Count == 0)
                 this.GetAvailableMaps();
         }
 
-        public async Task<Either<List<MapMatch>, List<string>>> GetMapMatches(int? beatmapId, int count = 10)
+        public async Task<Either<List<MapMatch>, List<string>>> GetMapMatches(int? beatmapId, int? beatmapSetId, int count = 10)
         {
             var errors = new List<string>();
 
-            if (beatmapId is null)
+            if (beatmapId is null || beatmapSetId is null)
                 errors.Add("No beatmap selected");
 
             if (count < 1 || count > 50)
@@ -42,6 +45,9 @@ namespace OMM.Desktop.Data.OmmApi
                 try
                 {
                     var matches = await client.GetFromJsonAsync<List<MapMatch>>($"api/knn/search?id={beatmapId}&count={count}");
+
+                    if (this.settings.UserSettings.HideResultWithSameBeatmapId)
+                        matches.RemoveAll(match => match.BeatmapSetId == beatmapSetId);
 
                     foreach (var map in matches)
                     {

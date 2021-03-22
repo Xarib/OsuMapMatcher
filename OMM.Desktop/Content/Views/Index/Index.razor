@@ -95,7 +95,7 @@
         this.isLoading = true;
         this.CurrentPage = 1;
 
-        var mapsOrErrors = await OmmApi.GetMapMatches(songSelection?.BeatmapId, Filter.Amount);
+        var mapsOrErrors = await OmmApi.GetMapMatches(songSelection?.BeatmapId, songSelection?.BeatmapSetId, Filter.Amount);
 
         this.isLoading = false;
         this.mapAvailable = true;

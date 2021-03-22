@@ -15,5 +15,7 @@ namespace OMM.Desktop.Data.Settings
         [Required]
         [Range(0, 100, ErrorMessage = "Invalid Volume (0-100)")]
         public int Volume { get; set; }
+        [Required]
+        public bool HideResultWithSameBeatmapId { get; set; }
     }
 }
