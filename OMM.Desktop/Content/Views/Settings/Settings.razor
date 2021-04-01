@@ -1,6 +1,9 @@
 ﻿@page "/settings"
 @using OMM.Desktop.Data.Settings
+@using OMM.Desktop.Data.OmmApi
+
 @inject ISettings Preference
+@inject OmmApiService OmmApi
 @inject IJSRuntime JS
 
 <div class="@Bem.Block()">
@@ -38,6 +41,9 @@
         <DataAnnotationsValidator />
         <div class="@Bem.Element("me")">
             Made by <a class="@Bem.Element("osu-profile")" href="https://osu.ppy.sh/users/13960406">Xarib</a>
+        </div>
+        <div class="@Bem.Element("me")">
+            @OmmApiService.AvailableMaps.Count Maps available on the API
         </div>
     </EditForm>
 </div>

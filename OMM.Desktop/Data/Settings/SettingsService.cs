@@ -23,29 +23,27 @@ namespace OMM.Desktop.Data.Settings
 
             if (!File.Exists("settings.xml"))
             {
-                var installationPath = "";
+                var songFolderPath = "";
                 var registry_key = @"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall";
                 try
                 {
 
-                    using (var key = Registry.LocalMachine.OpenSubKey(registry_key))
+#pragma warning disable CA1416 // Validate platform compatibility; Justification: Program is currently windows only
+                    using var key = Registry.LocalMachine.OpenSubKey(registry_key);
+                    foreach (string subkey_name in key.GetSubKeyNames())
                     {
-                        foreach (string subkey_name in key.GetSubKeyNames())
-                        {
-                            using (var subkey = key.OpenSubKey(subkey_name))
-                            {
-                                if (subkey.GetValue("DisplayName") is null || subkey.GetValue("DisplayName").ToString() != "osu!")
-                                    continue;
+                        using var subkey = key.OpenSubKey(subkey_name);
+                        if (subkey.GetValue("DisplayName") is null || subkey.GetValue("DisplayName").ToString() != "osu!")
+                            continue;
 
-                                installationPath = subkey.GetValue("DisplayIcon").ToString().Replace("osu!.exe", @"Songs");
-                            }
-                        }
+                        songFolderPath = subkey.GetValue("DisplayIcon").ToString().Replace("osu!.exe", "Songs").Replace(@"\", "/");
                     }
+#pragma warning restore CA1416 // Validate platform compatibility
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("Error: The osu! installation was not found.\nYou have to set your osu! songs folder path manually.\nYou can find a guide here https://github.com/Xarib/OsuMapMatcher/wiki/First-usage");
-                    installationPath = @"C:\";
+                    Console.WriteLine("Info: The osu! installation was not found.\nYou have to set your osu! songs folder path manually.\nYou can find a guide here https://github.com/Xarib/OsuMapMatcher/wiki/First-usage");
+                    songFolderPath = @"C:\";
                 }
 
                 this.UserSettings = new UserSettings
@@ -53,7 +51,7 @@ namespace OMM.Desktop.Data.Settings
                     ExitOnAllTabsClosed = false,
                     PrefersUnicode = false,
                     Volume = 25,
-                    SongFolderPath = installationPath,
+                    SongFolderPath = songFolderPath,
                     HideResultWithSameBeatmapId = false,
                 };
                 this.Save();

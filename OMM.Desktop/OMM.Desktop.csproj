@@ -20,8 +20,8 @@
 	<ItemGroup>
 		<PackageReference Include="BuildWebCompiler" Version="1.12.405" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-		<PackageReference Include="OsuMemoryDataProvider" Version="0.2.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="OsuMemoryDataProvider" Version="0.4.0" />
 	</ItemGroup>
 
 </Project>

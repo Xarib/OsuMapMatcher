@@ -15,6 +15,7 @@ namespace OMM.Desktop.Data.OsuDataProvider
     public class OsuDataProvider : IHostedService, IDisposable
     {
         private Timer timer;
+        private int retryCount;
         private readonly IOsuMemoryReader reader;
         private readonly ISettings settings;
         private readonly IOsuDataService osuDataService;
@@ -49,8 +50,8 @@ namespace OMM.Desktop.Data.OsuDataProvider
                 return;
             }
 
-            var folderName = this.reader.GetMapFolderName();
-            var songPath = path + "/" + folderName;
+            var mapFolderName = this.reader.GetMapFolderName();
+            var songPath = path + "/" + mapFolderName;
             var fileName = this.reader.GetOsuFileName();
 
             if (string.IsNullOrWhiteSpace(fileName))
@@ -84,8 +85,8 @@ namespace OMM.Desktop.Data.OsuDataProvider
                     osuDataService.OnSongSelectionChanged(new SongSelectionChangedEventArgs
                     {
                         BeatmapId = currentId,
-                        BeatmapSetId = (int)this.reader.GetMapSetId(),
-                        PathToBackgroundImage = "\"Songs/" + folderName + "/" + line + "\"",
+                        BeatmapSetId = this.reader.GetMapSetId(),
+                        PathToBackgroundImage = "\"Songs/" + mapFolderName + "/" + line + "\"",
                         Artist = keyValuePair.GetValueOrDefault("Artist"),
                         ArtistUnicode = keyValuePair.GetValueOrDefault("ArtistUnicode"),
                         DifficultyName = keyValuePair.GetValueOrDefault("Version"),
@@ -99,11 +100,29 @@ namespace OMM.Desktop.Data.OsuDataProvider
             catch (FileNotFoundException)
             {
                 //retry
+                Console.WriteLine("File was not found. Initiate retry!");
+                this.retryCount++;
+
+                if (this.retryCount > 5)
+                {
+                    timer.Change(Timeout.Infinite, Timeout.Infinite);
+                    Console.WriteLine("Stopped realtime reader");
+                }
+
                 return;
             }
             catch (DirectoryNotFoundException)
             {
                 //retry
+                Console.WriteLine("Directory was not found. Initiate retry!");
+                this.retryCount++;
+
+                if (this.retryCount > 5)
+                {
+                    timer.Change(Timeout.Infinite, Timeout.Infinite);
+                    Console.WriteLine("Stopped realtime reader");
+                }
+
                 return;
             }
 
