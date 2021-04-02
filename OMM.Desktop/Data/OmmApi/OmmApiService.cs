@@ -17,6 +17,9 @@ namespace OMM.Desktop.Data.OmmApi
         private readonly IHttpClientFactory _httpClientFactory;
 
         public static HashSet<int> AvailableMaps { get; set; } = new HashSet<int>();
+        public bool HasUpdate { get; set; } = false;
+        public string Version { get; } = "0.2";
+        private int versionNumber = 2;
         private ISettings settings;
 
         public OmmApiService(IHttpClientFactory factory, ISettings settings)
@@ -26,6 +29,8 @@ namespace OMM.Desktop.Data.OmmApi
 
             if (AvailableMaps.Count == 0)
                 this.GetAvailableMaps();
+
+            this.HasUpdates();
         }
 
         public async Task<Either<List<MapMatch>, List<string>>> GetMapMatches(int? beatmapId, int? beatmapSetId, int count = 10)
@@ -131,6 +136,54 @@ namespace OMM.Desktop.Data.OmmApi
                 errors.Add("Oopsie woopsie Xarib made an oopsie.");
             }
 
+        }
+
+        private void HasUpdates()
+        {
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+                Thread.Sleep(2000);
+
+            var errors = new List<string>();
+
+            using var client = _httpClientFactory.CreateClient("OmmApi");
+
+            try
+            {
+                var version = JsonConvert.DeserializeObject<string>(client.GetStringAsync("/version").Result);
+                version = version.Replace(".", "");
+
+                if (!int.TryParse(version, out int versionNumber))
+                    return;
+
+                if (versionNumber > this.versionNumber)
+                    this.HasUpdate = true;
+            }
+            catch (HttpRequestException e) // Non success
+            {
+                switch (e.StatusCode)
+                {
+                    case HttpStatusCode.TooManyRequests:
+                        errors.Add("You have mad too many requests");
+                        break;
+                    case HttpStatusCode.Forbidden:
+                        errors.Add("Config error. Whoops");
+                        break;
+                    case HttpStatusCode.BadGateway:
+                        errors.Add("Stuff is being done on the server. Try again later.");
+                        break;
+                    default:
+                        errors.Add("An error occurred.");
+                        break;
+                }
+            }
+            catch (NotSupportedException) // When content type is not valid
+            {
+                errors.Add("The content type is not supported.");
+            }
+            catch (Exception) // Invalid JSON
+            {
+                errors.Add("Oopsie woopsie Xarib made an oopsie.");
+            }
         }
     }
 }

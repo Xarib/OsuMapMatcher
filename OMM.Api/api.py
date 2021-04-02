@@ -46,6 +46,10 @@ cur = None
 def get_info():
     return {'info' : 'No info'}
 
+@app.get('/version')
+def get_info():
+    return "0.2"
+
 @app.get('/api/knn/maps')
 def get_all_map_ids():
     return PlainTextResponse(all_map_ids, status_code=200)

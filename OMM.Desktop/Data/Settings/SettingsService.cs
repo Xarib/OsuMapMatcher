@@ -64,20 +64,18 @@ namespace OMM.Desktop.Data.Settings
 
         private UserSettings Read()
         {
-            using (StreamReader sw = new StreamReader("settings.xml"))
-            {
-                XmlSerializer xmls = new XmlSerializer(typeof(UserSettings));
-                return xmls.Deserialize(sw) as UserSettings;
-            }
+            using StreamReader sw = new StreamReader("settings.xml");
+
+            XmlSerializer xmls = new XmlSerializer(typeof(UserSettings));
+            return xmls.Deserialize(sw) as UserSettings;
         }
 
         public void Save()
         {
-            using (StreamWriter sw = new StreamWriter("settings.xml"))
-            {
-                XmlSerializer xmls = new XmlSerializer(typeof(UserSettings));
-                xmls.Serialize(sw, this.UserSettings);
-            }
+            using StreamWriter sw = new StreamWriter("settings.xml");
+
+            XmlSerializer xmls = new XmlSerializer(typeof(UserSettings));
+            xmls.Serialize(sw, this.UserSettings);
         }
     }
 }

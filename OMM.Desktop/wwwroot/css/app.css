@@ -367,6 +367,15 @@ body {
 .view-index__page-button:hover {
   background-color: #525c6b;
 }
+.view-index__program-version {
+  position: absolute;
+  display: flex;
+  align-items: end;
+  flex-direction: column;
+  top: 0;
+  right: 0;
+  font-size: 12px;
+}
 .view-settings {
   display: flex;
   flex-direction: column;
