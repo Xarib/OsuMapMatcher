@@ -21,7 +21,7 @@ namespace OMM.Desktop.Data.OsuDataProvider
         public void OnSongSelectionChanged(Either<SongSelectionChangedEventArgs, List<string>> args)
         {
             var eventHandler = SongChanged;
-            if (eventHandler != null)
+            if (eventHandler is not null)
             {
                 eventHandler(this, args);
             }

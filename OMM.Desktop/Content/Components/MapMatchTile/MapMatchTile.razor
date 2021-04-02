@@ -19,6 +19,14 @@
             <div class="@Bem.Element("map-metadata")">
                 <span>@GetArtistAndTitle()</span>
                 <span>[@MapMatch?.DifficultyName]</span>
+                @if (this.IsDownloaded)
+                {
+                    <i class="fas fa-save"></i>
+                }
+                else if (this.MapMatch.BeatmapSetId is null)
+                {
+                    <i class="fas fa-question-circle"></i>
+                }
             </div>
             @if (MapMatch.BeatmapSetId is not null)
             {
@@ -77,7 +85,7 @@
                         IconName="fa-external-link-alt"
                         Style="fas"
                         RootClass="@Bem.Element("button-map-info")"
-                        Href="@MapMatch.MapLink"/>
+                        Href="@MapMatch.MapLink" />
         </Footer>
     </Expander>
 </div>
@@ -88,7 +96,10 @@
     [Parameter]
     public MapMatch MapMatch { get; set; } = null;
 
-    public bool isExpanded { get; set; } = false;
+    [Parameter]
+    public bool IsDownloaded { get; set; } = false;
+
+    private bool isExpanded { get; set; } = false;
 
     private string expandedFlag => isExpanded ? "expanded" : null;
 

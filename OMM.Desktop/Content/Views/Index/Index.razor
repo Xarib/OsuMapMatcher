@@ -2,8 +2,11 @@
 @using OMM.Desktop.Data.OsuDataProvider
 @using OMM.Desktop.Data.OmmApi
 @using OMM.Desktop.Data.Settings
+@using OMM.Desktop.Data
+@using System.IO;
 @using OMM.Desktop.Content.Components.MapImage
 @inject OmmApiService OmmApi
+@inject SongFolderWatcher Watcher
 @inject IOsuDataService OsuDataProvider
 @implements IDisposable
 
@@ -37,7 +40,8 @@
         </div>
         @foreach (var map in this.mapMatches.Skip(this.CurrentPage * 10 - 10).Take(10))
         {
-            <MapMatchTile MapMatch="map" />
+            <MapMatchTile MapMatch="map"
+                          IsDownloaded="Watcher.DownloadedMaps.Contains(map.BeatmapSetId.GetValueOrDefault())" />
         }
     }
     else
@@ -79,6 +83,7 @@
 
         OsuDataProvider.SongChanged += this.SongChanged;
         OsuDataProvider.OldId = -1;
+        Watcher.SongsFolderContentChange += this.HandleMapDownload;
     }
 
     public void Dispose()
@@ -131,6 +136,11 @@
             this.songSelection = null;
         }
 
+        await InvokeAsync(() => base.StateHasChanged());
+    }
+
+    private async void HandleMapDownload(object sender, string s)
+    {
         await InvokeAsync(() => base.StateHasChanged());
     }
 

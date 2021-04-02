@@ -31,10 +31,11 @@ namespace OMM.Desktop
             });
             services.AddServerSideBlazor();
             services.AddHostedService<OsuDataProvider>();
+            services.AddSingleton<ISettings, SettingsService>();
             services.AddSingleton<IOsuDataService, OsuDataService>();
             services.AddSingleton<OsuDataProvider>();
             services.AddSingleton<OmmApiService>();
-            services.AddSingleton<ISettings, SettingsService>();
+            services.AddSingleton<SongFolderWatcher>();
             services.AddSingleton<CircuitHandler, TrackingCircuitHandler>();
             services.AddHttpClient("OmmApi", client =>
             {
