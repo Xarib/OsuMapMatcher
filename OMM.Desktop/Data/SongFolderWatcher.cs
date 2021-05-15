@@ -21,7 +21,7 @@ namespace OMM.Desktop.Data
             foreach (var set in Directory.GetDirectories(settings.UserSettings.SongFolderPath))
             {
                 var dir = new DirectoryInfo(set);
-                var mapSetFolderName = dir.Name;
+                var mapSetFolderName = dir.Name.Trim();
 
                 if (!char.IsDigit(mapSetFolderName[0]))
                     continue; //Ignore non mapset folders
@@ -82,7 +82,16 @@ namespace OMM.Desktop.Data
 
         private static bool GetFolderMapSetId(string folderName, out int id)
         {
-            if (int.TryParse(folderName.Substring(0, folderName.IndexOf(' ')), out int mapSetId))
+            var indexOfSpace = folderName.IndexOf(' ');
+            
+            if (indexOfSpace < 0)
+            {
+                id = -1;
+                Console.Write($"Info: Unusual foldername '{folderName}' found\n");
+                return false;
+            }
+
+            if (int.TryParse(folderName.Substring(0, indexOfSpace), out int mapSetId))
             {
                 id = mapSetId;
                 return true;
