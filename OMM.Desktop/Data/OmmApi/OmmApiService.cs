@@ -18,8 +18,8 @@ namespace OMM.Desktop.Data.OmmApi
 
         public static HashSet<int> AvailableMaps { get; set; } = new HashSet<int>();
         public bool HasUpdate { get; set; } = false;
-        public string Version { get; } = "0.3";
-        private int versionNumber = 3;
+        public string Version { get; } = "0.4";
+        private int versionNumber = 4;
         private ISettings settings;
 
         public OmmApiService(IHttpClientFactory factory, ISettings settings)

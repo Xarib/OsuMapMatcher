@@ -48,7 +48,7 @@ def get_info():
 
 @app.get('/version')
 def get_info():
-    return "0.3"
+    return "0.4"
 
 @app.get('/api/knn/maps')
 def get_all_map_ids():

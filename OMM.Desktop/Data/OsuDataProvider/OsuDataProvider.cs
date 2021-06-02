@@ -43,7 +43,7 @@ namespace OMM.Desktop.Data.OsuDataProvider
             osuDataService.OldId = currentId;
 
             var path = settings.UserSettings.SongFolderPath;
-            if (!path.EndsWith("Songs", StringComparison.OrdinalIgnoreCase) || !Directory.Exists(path))
+            if (!Directory.Exists(path))
             {
                 Console.WriteLine("Song folder not found!");
                 osuDataService.OnSongSelectionChanged(new List<string> { "Song folder not found! Go to settings and set the correct path." });
