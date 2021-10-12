@@ -1,3 +1,5 @@
+&#x1F534; This service does not work anymore! Please refrain from using it. There have been changes on how osu! saves maps and that broke it. Due to infrequent use, the server has been taken down.
+
 # OsuMapMatcher
 A API/Programm that finds similarly mapped maps in a easy manner.
 
