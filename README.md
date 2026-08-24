@@ -1,4 +1,9 @@
-&#x1F534; This service does not work anymore! Please refrain from using it. There have been changes on how osu! saves maps and that broke it. Due to infrequent use, the server has been taken down.
+> [!Important]
+> This service does not work anymore! Please refrain from using it. There have been changes on how osu! saves maps and that broke it. Due to infrequent use, the server has been taken down.
+>
+> There’s some new development happening there, just not by me:
+> - [Ayreth/OsuMapMatcher-overlay](https://github.com/Ayreth/OsuMapMatcher-overlay) (Same name, new codebase)
+> - If you want your project linked here too, just let me know.
 
 # OsuMapMatcher
 A API/Programm that finds similarly mapped maps in a easy manner.
